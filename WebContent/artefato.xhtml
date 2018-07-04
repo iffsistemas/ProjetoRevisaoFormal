@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition template="/templates/templates.xhtml"> 
+
+
+<ui:define name="titulo">Cadastrar Artefatos</ui:define>
+
+
+<ui:define name="conteudo">
+
+<h:form id="FormArtefato">		
+	<h:panelGrid columns="2">
+     	
+     	<p:outputLabel value="Nome do Artefato:" for="nomeArtefato"/>
+     	<p:inputTextarea id="nomeArtefato" value="#{#}"  rows="1" cols="30" autoResize="false" />
+     	
+     	<p:outputLabel value="Descricao Resumida:" for="descricaoResumida"/>
+     	<p:inputTextarea id="descricaoResumida" value="#{#}"  rows="2" cols="80" autoResize="false" />
+     	
+     	<p:outputLabel value="Descricao Detalhada:" for="descricaoDetalhada"/>
+     	<p:inputTextarea id="descricaoDetalhada" value="#{#}"  rows="5" cols="80" autoResize="false" />
+     	
+     	</h:panelGrid>
+     	
+     	
+     	<p:fieldset legend="Produtor(es)" id="fieldProdutor" >
+     	     	
+     	<p:commandButton value="Adicionar Produtor" icon="ui-icon-plus" oncomplete="PF('AddProdutor').show();"/>
+     		   
+     	
+     	<p:dataTable style="max-width: 600px; min-width: 600px" value="#{#}" var="med"
+	paginator="true" id="tableProdutor"  emptyMessage="Nenhum Produtor Cadastrado!" rows="5" >
+		<p:column>
+			<f:facet name="header">Nome</f:facet>
+			<h:outputText value="#{#}" />
+		</p:column>
+		<p:column>
+			<f:facet name="header">Função</f:facet>
+			<h:outputText value="#{#}" />
+		</p:column>		
+		<p:column style="width:55px">
+			<f:facet name="header">Excluir</f:facet>
+			<p:commandButton icon="ui-icon-trash" action="#{#}" 
+			update=":mensagem, tableProdutor" process="tableProdutor" />   
+		</p:column>	
+		</p:dataTable>
+		
+		</p:fieldset>
+</h:form>	
+	
+		
+	<h:form id="formTeste">
+ 	<p:dialog  header="Adicionar Produtor" widgetVar="AddProdutor" resizable="false" 
+ 		draggable="false" modal="true" showEffect="side" hideEffect="side"  >
+
+		<h:panelGrid columns="2">
+     	
+     	<p:outputLabel value="Nome:" for="nomeMed"/>
+     	<p:inputTextarea id="nomeMed" value="#{#}"  rows="2" cols="20" autoResize="false" />
+     	
+     	<p:outputLabel value="Posologia:" for="posologia"/>
+     	<p:inputTextarea id="posologia" value="#{#}"  rows="2" cols="20" autoResize="false" />
+     	
+     	<p:commandButton value="Adicionar" icon="ui-icon-disk" action="#{#}"
+     	update=":mensagem" process="formTeste" oncomplete="PF('AddProdutor').hide();"/> 
+     	
+		<p:commandButton value="Fechar" icon="ui-icon-close" oncomplete="PF('AddProdutor').hide();"/>
+
+		</h:panelGrid>	
+		
+</p:dialog>
+ </h:form> 	
+
+
+
+
+
+
+  
+</ui:define>	 
+</ui:composition>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>

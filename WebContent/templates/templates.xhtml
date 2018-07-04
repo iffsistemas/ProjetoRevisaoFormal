@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/css/estilo.css" />
+
+</h:head>
+
+
+
+
+<body>
+	<p:growl id="mensagem" life="5000" showDetail="true" />
+
+
+	<div class="pagina">
+
+		<script>
+          PrimeFaces.locales['pt'] = {
+              closeText: 'Fechar',
+              prevText: 'Anterior',
+              nextText: 'Próximo',
+              currentText: 'Começo',
+              monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+              monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+              dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+              dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+              dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
+              weekHeader: 'Semana',
+              firstDay: 0,
+              isRTL: false,
+              showMonthAfterYear: false,
+              yearSuffix: '',
+              timeOnlyTitle: 'Só Horas',
+              timeText: 'Tempo',
+              hourText: 'Hora',
+              minuteText: 'Minuto',
+              secondText: 'Segundo',
+              ampm: false,
+              month: 'Mês',
+              week: 'Semana',
+              day: 'Dia',
+              allDayText: 'Todo o Dia'
+          };
+      </script>
+
+		<div class="menu">
+			<h:form>
+
+				<p:menubar>
+
+					
+					<p:submenu label="Cadastro" icon="ui-icon-plus">
+						<p:menuitem value="Função" url="funcao.xhtml" />
+						<p:menuitem value="Participante" url="participante.xhtml" />
+						<p:menuitem value="Artefato" url="artefato.xhtml" />
+
+				</p:submenu>
+
+
+					<p:submenu label="Ata" icon="ui-icon-pencil">
+
+						<p:menuitem value="Nova Ata" url="ata.xhtml" />
+						<p:menuitem value="Revisar Ata" url="revisarAta.xhtml" />
+					</p:submenu>
+
+
+				<p:submenu label="Sair" icon="ui-icon-close"></p:submenu>
+
+
+			</p:menubar>
+			</h:form>
+		</div>
+
+
+		<div class="texto-centro titulo">
+			<h1>
+				<ui:insert name="titulo"></ui:insert>
+			</h1>
+		</div>
+
+
+
+		<ui:insert name="conteudo">
+
+		</ui:insert>
+
+
+
+		<div class="rodape">
+			Desenvolvido: 6º Período - Sistemas de Informação - IFF - 2018 <br>
+				<br> <p:clock pattern=" dd/MM/yyyy - HH:mm:ss" /> </br> </br>
+
+		</div>
+
+
+	</div>
+
+
+</body>
+</html>

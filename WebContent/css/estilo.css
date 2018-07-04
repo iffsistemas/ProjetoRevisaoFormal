@@ -1,0 +1,86 @@
+/*
+. classe
+# id
+*/
+
+*{
+	
+}
+
+body{
+	background-color: cadetblue;
+}
+
+
+.pagina{
+	width: 70%;
+	margin: 10px auto;
+	
+}
+
+.titulo{
+	color: black;
+	font-style: italic;
+}
+
+.texto-centro{
+	text-align: center;
+}
+
+.menu{
+	width: 100%;
+	margin: 10px auto;
+}
+
+
+.rodape{
+	text-align: center;
+	
+	font-style: italic;
+	font-weight: bold;
+	padding: 10px;
+	color: black;
+}
+
+.ui-widget {
+    font-size: 0.8em;
+}
+
+.ui-grid-col-6{
+	padding: 2px;
+}
+
+.ui-panelgrid .ui-panelgrid-cell {
+    border-style: none;
+    padding: 2px 3px;
+
+}
+	
+
+.ui-panelgrid {
+border-collapse: nome;
+
+}
+
+.ui-selectmanycheckbox.ui-grid label, .ui-selectoneradio.ui-grid label{
+	    display: unset;
+}
+
+.ui-fieldset{
+	width: fit-content;
+	margin: 1px;
+	min-width: 80%;
+}
+
+.input-exames-labo{
+	width: 100px;
+}
+
+.input-taco{
+	width: 40px;
+}
+
+
+.columnClasses-labo{
+	padding-right: 50px;
+}

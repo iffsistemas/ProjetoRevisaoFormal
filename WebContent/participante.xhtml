@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition template="/templates/templates.xhtml"> 
+
+
+<ui:define name="titulo">Cadastrar Participantes</ui:define>
+
+
+<ui:define name="conteudo">
+
+
+
+		<h:form id="formParticipantes">
+			
+			<p:panelGrid columns="2">
+				<p:outputLabel value="Nome: " for="nome"/>
+				<p:inputText value="#{participanteBean.participante.nome}" id="nome" required="true" requiredMessage="Nome Obrigatório!" />
+				
+				<p:outputLabel value="Senha: " for="senha"/>
+				<p:password value="#{participanteBean.participante.senha}" id="senha" required="true" requiredMessage="Senha Obrigatória!" />
+				
+				
+				<p:commandButton action="#{participanteBean.salvarParticipante()}" value="Salvar" 
+				update=":mensagem :formParticipantes, formLista:tableParticipantes" process="@form" />			
+			</p:panelGrid>	
+		</h:form>	
+		<br/>
+		
+		<br></br><br></br>
+		<h:form id="formLista">
+			<p:dataTable  style="max-width: 500px; min-width: 500px" value="#{participanteBean.participantes}" var="part" paginator="true" id="tableParticipantes"
+			 emptyMessage="Nenhuma função Cadastrada!" rows="10">
+				<p:column headerText="Nome" sortBy="#{part.nome}">
+					<h:outputText value="#{part.nome}" />
+				</p:column>
+				
+				<p:column style="width:55px" headerText="Editar">
+					<p:commandButton action="#{participanteBean.editarParticipante(part)}" icon="ui-icon-pencil" 
+					update=":mensagem :formParticipantes" process="@form" />
+				</p:column>	
+				
+				<p:column style="width:55px"  headerText="Excluir">
+			<p:commandButton icon="ui-icon-trash" action="#{participanteBean.removerParticipante(part)}"
+			 update=":mensagem :formLista :formLista:tableParticipantes"  process="@form">
+			 <p:confirm header="Confirmação" message="Deseja excluir Participante?" icon="ui-icon-alert" />
+			</p:commandButton>
+			
+			<p:confirmDialog global="true" showEffect="size" hideEffect="size">
+        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>	
+			
+			</p:column>	
+				
+			
+				
+			</p:dataTable>
+		</h:form>
+		
+
+
+
+
+  
+</ui:define>	 
+</ui:composition>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>

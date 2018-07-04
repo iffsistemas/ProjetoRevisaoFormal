@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition template="/templates/templates.xhtml"> 
+
+
+<ui:define name="titulo">Nova Ata</ui:define>
+
+
+<ui:define name="conteudo">
+
+
+
+<h:form id="FormAta">		
+	<h:panelGrid columns="2">
+     	
+     	<p:outputLabel value="Título:" for="titulo"/>
+     	<p:inputTextarea id="titulo" value="#{#}"  rows="1" cols="30" autoResize="false" />
+     	
+     	<p:outputLabel value="Descrição:" for="descricao"/>
+     	<p:inputTextarea id="descricao" value="#{#}"  rows="2" cols="60" autoResize="false" />
+     	
+     	<p:outputLabel value="Local:" for="local"/>
+     	<p:inputTextarea id="local" value="#{#}"  rows="1" cols="30" autoResize="false" />
+     	
+     	<p:outputLabel value="Data:" for="data"/>
+     	<p:inputTextarea id="data" value="#{#}"  rows="4" cols="60" autoResize="false" />
+     	
+     	</h:panelGrid>
+     	
+     	
+     	<p:fieldset legend="Equipe" id="fieldEquipe">
+     	     	
+     	<p:commandButton value="Adicionar Participante" icon="ui-icon-plus" oncomplete="PF('AddParticipante').show();"/>
+     		   
+     	
+     	<p:dataTable style="max-width: 600px; min-width: 600px" value="#{#}" var="part"
+	paginator="true" id="tableParticipante"  emptyMessage="Nenhum Participante Cadastrado!" rows="5" >
+		<p:column>
+			<f:facet name="header">Nome</f:facet>
+			<h:outputText value="#{#}" />
+		</p:column>
+		<p:column>
+			<f:facet name="header">Função</f:facet>
+			<h:outputText value="#{#}" />
+		</p:column>		
+		<p:column style="width:55px">
+			<f:facet name="header">Excluir</f:facet>
+			<p:commandButton icon="ui-icon-trash" action="#{#}" 
+			update=":mensagem, tableParticipante" process="tableParticipante" />   
+		</p:column>	
+		</p:dataTable>
+		
+		</p:fieldset>
+		
+		<h:panelGrid columns="2">
+		
+		<p:outputLabel value="Relatório:" for="relatorio"/>
+     	<p:inputTextarea id="relatorio" value="#{#}"  rows="20" cols="97" autoResize="false" />
+		
+		</h:panelGrid>
+		
+		<p:fieldset legend="Assinaturas" id="fieldAssinatura">
+     	     	
+     	<p:commandButton value="Assinar Ata" icon="ui-icon-plus" oncomplete="PF('AddAssinatura').show();"/>
+     		   
+     	
+     	<p:dataTable style="max-width: 600px; min-width: 600px" value="#{#}" var="part"
+	paginator="true" id="tableAssinatura"  emptyMessage="Nenhuma Assinatura Cadastrado!" rows="5" >
+		<p:column>
+			<f:facet name="header">Nome</f:facet>
+			<h:outputText value="#{#}" />
+		</p:column>
+		<p:column>
+			<f:facet name="header">Assinatura</f:facet>
+			<h:outputText value="#{#}" />
+		</p:column>		
+		<p:column style="width:55px">
+			<f:facet name="header">Excluir</f:facet>
+			<p:commandButton icon="ui-icon-trash" action="#{#}" 
+			update=":mensagem, tableAssinatura" process="tableAssinatura" />   
+		</p:column>	
+		</p:dataTable>
+		</p:fieldset>
+		
+</h:form>	
+	
+	
+	
+	
+	
+	<h:form id="formTeste">
+ 	<p:dialog  header="Adicionar Participante" widgetVar="AddParticipante" resizable="false" 
+ 		draggable="false" modal="true" showEffect="side" hideEffect="side"  >
+
+		<h:panelGrid columns="2">
+     	
+     	<p:outputLabel value="Nome:" for="nomeMed"/>
+     	<p:inputTextarea id="nomeMed" value="#{#}"  rows="2" cols="20" autoResize="false" />
+     	
+     	<p:outputLabel value="Posologia:" for="posologia"/>
+     	<p:inputTextarea id="posologia" value="#{#}"  rows="2" cols="20" autoResize="false" />
+     	
+     	<p:commandButton value="Adicionar" icon="ui-icon-disk" action="#{#}"
+     	update=":mensagem" process="formTeste" oncomplete="PF('AddParticipante').hide();"/> 
+     	
+		<p:commandButton value="Fechar" icon="ui-icon-close" oncomplete="PF('AddParticipante').hide();"/>
+
+		</h:panelGrid>	
+		
+</p:dialog>
+ </h:form> 	
+
+
+
+<h:form id="formAssinatura">
+ 	<p:dialog  header="Assinar Ata" widgetVar="AddAssinatura" resizable="false" 
+ 		draggable="false" modal="true" showEffect="side" hideEffect="side"  >
+
+		<h:panelGrid columns="2">
+     	
+     	<p:outputLabel value="Nome:" for="nomeMed"/>
+     	<p:inputTextarea id="nomeMed" value="#{#}"  rows="2" cols="20" autoResize="false" />
+     	
+     	<p:outputLabel value="Senha" for="senhaAssinatura"/>
+     	<p:inputTextarea id="senhaAssinatura" value="#{#}"  rows="2" cols="20" autoResize="false" />
+     	
+     	<p:commandButton value="Assinar" icon="ui-icon-disk" action="#{#}"
+     	update=":mensagem" process="formTeste" oncomplete="PF('AddAssinatura').hide();"/> 
+     	
+		<p:commandButton value="Fechar" icon="ui-icon-close" oncomplete="PF('AddAssinatura').hide();"/>
+
+		</h:panelGrid>	
+		
+</p:dialog>
+ </h:form> 	
+
+
+
+
+
+  
+</ui:define>	 
+</ui:composition>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>
