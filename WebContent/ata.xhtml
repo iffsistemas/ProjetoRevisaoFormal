@@ -58,8 +58,29 @@
 		
 		</p:fieldset>
 		
+		<h:panelGrid id="cronometro" columns="3">
+		
+		<h:form>
+   		 <h:outputText id="txt_count" value="#{ataBean.cronometro}" />
+    	<p:poll interval="3" listener="#{ataBean.cronometro()}" update="txt_count" />
+		</h:form>
+		
+		
+		<h:form>
+  <p:outputLabel value="Current Time:" /> <p:outputLabel id="currentTime" value="#{ataBean.cronometro}"/>
+  <p:poll interval="1"  listener="#{ataBean.cronometro()}" update="currentTime" widgetVar="currentTimePoller" autoStart="false"/> <br/>
+  <p:button value="Start" onclick="ataBean.cronometro()" href="#" />
+  <p:button value="Stop" onclick="currentTimePoller.stop()" href="#"/><br/>
+</h:form>
+		
+		</h:panelGrid>
+		
+ 
+		
+		
 		<h:panelGrid columns="2">
 		
+				
 		<p:outputLabel value="Relatório:" for="relatorio"/>
      	<p:inputTextarea id="relatorio" value="#{#}"  rows="20" cols="97" autoResize="false" />
 		
@@ -96,15 +117,22 @@
 	
 	<h:form id="formTeste">
  	<p:dialog  header="Adicionar Participante" widgetVar="AddParticipante" resizable="false" 
- 		draggable="false" modal="true" showEffect="side" hideEffect="side"  >
+ 		draggable="false" modal="true" showEffect="slide" hideEffect="slide"  >
 
 		<h:panelGrid columns="2">
-     	
-     	<p:outputLabel value="Nome:" for="nomeMed"/>
-     	<p:inputTextarea id="nomeMed" value="#{#}"  rows="2" cols="20" autoResize="false" />
-     	
-     	<p:outputLabel value="Posologia:" for="posologia"/>
-     	<p:inputTextarea id="posologia" value="#{#}"  rows="2" cols="20" autoResize="false" />
+					<p:outputLabel value="Participante: " for="part" />
+					<p:selectOneMenu id="part" value="#{ataBean.idParticipanteAtual}">
+						<f:selectItem itemValue="0" itemLabel="Selecione..." />
+						<f:selectItems value="#{participanteBean.participantes}" var="part" 
+						 itemLabel="#{part.nome}" itemValue="#{part.id}"  />
+					</p:selectOneMenu>
+					
+					<p:outputLabel value="Função: " for="func" />
+					<p:selectOneMenu id="func" value="#{ataBean.idFuncaoAtual}">
+						<f:selectItem itemValue="0" itemLabel="Selecione..." />
+						<f:selectItems value="#{funcaoBean.funcoes}" var="func" 
+						 itemLabel="#{func.nome}" itemValue="#{func.id}"  />
+					</p:selectOneMenu>
      	
      	<p:commandButton value="Adicionar" icon="ui-icon-disk" action="#{#}"
      	update=":mensagem" process="formTeste" oncomplete="PF('AddParticipante').hide();"/> 
@@ -120,7 +148,7 @@
 
 <h:form id="formAssinatura">
  	<p:dialog  header="Assinar Ata" widgetVar="AddAssinatura" resizable="false" 
- 		draggable="false" modal="true" showEffect="side" hideEffect="side"  >
+ 		draggable="false" modal="true" showEffect="slide" hideEffect="slide"  >
 
 		<h:panelGrid columns="2">
      	

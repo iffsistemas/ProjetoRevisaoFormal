@@ -13,9 +13,11 @@
 
 
 <ui:define name="conteudo">
+<p:fieldset legend="Nova Função" id="fildNovaFuncao">
 <h:form id="formFuncoes">
 			
-			<p:panelGrid columns="2">
+			
+			<p:panelGrid columns="3">
 				<p:outputLabel value="Nome: " for="nome"/>
 				<p:inputText value="#{funcaoBean.funcao.nome}" id="nome" required="true" requiredMessage="Nome Obrigatório!" />
 				
@@ -23,10 +25,13 @@
 				<p:commandButton action="#{funcaoBean.salvarFuncao()}" value="Salvar" 
 				update=":mensagem :formFuncoes, formLista:tableFuncoes" process="@form" />			
 			</p:panelGrid>	
+			
 		</h:form>	
-		<br/>
 		
-		<br></br><br></br>
+	</p:fieldset>	
+		 
+		
+		<br></br> 
 		<h:form id="formLista">
 			<p:dataTable  style="max-width: 500px; min-width: 500px" value="#{funcaoBean.funcoes}" var="func" paginator="true" id="tableFuncoes"
 			 emptyMessage="Nenhuma função Cadastrada!" rows="10">
