@@ -1,41 +1,95 @@
 package modelo;
 
+import java.util.List;
+
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Artefato extends GenericId{
+	
+	private String descricao;
+	
+	@Enumerated(EnumType.ORDINAL)
+	private Situacao situacao;
+	
+	@OneToMany(mappedBy="artefato")
+	private List<AtaReuniao> ataReuniao;
+	
+	
+	@ManyToOne(optional=false)
+	private Participante produtor;
+	
+	//@OneToMany
+	//private List<Anexo> anexos;
 
-	private String nome;
-	private String descricaoResumida;
-	private String descricaoDetalhada;
-	
-	
-	
-	
-	
-	public String getNome() {
-		return nome;
+	public String getDescricao() {
+		return descricao;
 	}
-	public void setNome(String nome) {
-		this.nome = nome;
+
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
-	public String getDescricaoResumida() {
-		return descricaoResumida;
+
+
+	public Situacao getSituacao() {
+		return situacao;
 	}
-	public void setDescricaoResumida(String descricaoResumida) {
-		this.descricaoResumida = descricaoResumida;
+
+
+	public void setSituacao(Situacao situacao) {
+		this.situacao = situacao;
 	}
-	public String getDescricaoDetalhada() {
-		return descricaoDetalhada;
-	}
-	public void setDescricaoDetalhada(String descricaoDetalhada) {
-		this.descricaoDetalhada = descricaoDetalhada;
-	}
+
 	
 
 	
-	
+	public List<AtaReuniao> getAtaReuniao() {
+		return ataReuniao;
+	}
+
+
+	public void setAtaReuniao(List<AtaReuniao> ataReuniao) {
+		this.ataReuniao = ataReuniao;
+	}
+
+
+	public Participante getProdutor() {
+		return produtor;
+	}
+
+
+	public void setProdutor(Participante produtor) {
+		this.produtor = produtor;
+	}
+
+
+
+
+	public enum Situacao {
+		ACEITO("Aceito"),
+		ACEITO_PROVISORIAMENTE("Aceito Provisoriamente"),
+		PEDENTE("Pedente"),
+		REJEITADO("Rejeitado");
+
+		final String descricao;
+	    
+		private Situacao(String valor) {
+	        this.descricao = valor;
+	    }
+
+		public String getDescricao() {
+			return descricao;
+		}	
+		
+		public int getOrdinal() {
+			return this.ordinal();
+		}
+	}
 	
 	
 }

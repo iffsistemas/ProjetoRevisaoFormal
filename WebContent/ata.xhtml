@@ -39,40 +39,40 @@
      	<p:commandButton value="Adicionar Participante" icon="ui-icon-plus" oncomplete="PF('AddParticipante').show();"/>
      		   
      	
-     	<p:dataTable style="max-width: 600px; min-width: 600px" value="#{#}" var="part"
-	paginator="true" id="tableParticipante"  emptyMessage="Nenhum Participante Cadastrado!" rows="5" >
-		<p:column>
-			<f:facet name="header">Nome</f:facet>
-			<h:outputText value="#{#}" />
-		</p:column>
-		<p:column>
-			<f:facet name="header">Função</f:facet>
-			<h:outputText value="#{#}" />
-		</p:column>		
-		<p:column style="width:55px">
-			<f:facet name="header">Excluir</f:facet>
-			<p:commandButton icon="ui-icon-trash" action="#{#}" 
-			update=":mensagem, tableParticipante" process="tableParticipante" />   
-		</p:column>	
+     	<p:dataTable style="max-width: 600px; min-width: 600px" value="#{ataReuniaoBean.ata.participantes}" var="part"
+			paginator="true" id="tableParticipante"  emptyMessage="Nenhum Participante Cadastrado!" rows="5" >
+			<p:column>
+				<f:facet name="header">Nome</f:facet>
+				<h:outputText value="#{part.participante.nome}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Função</f:facet>
+				<h:outputText value="#{part.funcao.descricao}" />
+			</p:column>		
+			<p:column style="width:55px">
+				<f:facet name="header">Excluir</f:facet>
+				<p:commandButton icon="ui-icon-trash" action="#{#}" 
+				update=":mensagem, tableParticipante" process="tableParticipante" />   
+			</p:column>	
 		</p:dataTable>
 		
 		</p:fieldset>
 		
 		<h:panelGrid id="cronometro" columns="3">
 		
-		<h:form>
-   		 <h:outputText id="txt_count" value="#{ataBean.cronometro}" />
-    	<p:poll interval="3" listener="#{ataBean.cronometro()}" update="txt_count" />
-		</h:form>
+		<!-- <h:form>
+   		 <h:outputText id="txt_count" value="#{ataReuniaoBean.cronometro}" />
+    	<p:poll interval="3" listener="#{ataReuniaoBean.cronometro()}" update="txt_count" />
+		</h:form> 
 		
 		
 		<h:form>
-  <p:outputLabel value="Current Time:" /> <p:outputLabel id="currentTime" value="#{ataBean.cronometro}"/>
-  <p:poll interval="1"  listener="#{ataBean.cronometro()}" update="currentTime" widgetVar="currentTimePoller" autoStart="false"/> <br/>
-  <p:button value="Start" onclick="ataBean.cronometro()" href="#" />
+  <p:outputLabel value="Current Time:" /> <p:outputLabel id="currentTime" value="#{ataReuniaoBean.cronometro}"/>
+  <p:poll interval="1"  listener="#{ataReuniaoBean.cronometro()}" update="currentTime" widgetVar="currentTimePoller" autoStart="false"/> <br/>
+  <p:button value="Start" onclick="ataReuniaoBean.cronometro()" href="#" />
   <p:button value="Stop" onclick="currentTimePoller.stop()" href="#"/><br/>
 </h:form>
-		
+	-->	
 		</h:panelGrid>
 		
  
@@ -121,21 +121,21 @@
 
 		<h:panelGrid columns="2">
 					<p:outputLabel value="Participante: " for="part" />
-					<p:selectOneMenu id="part" value="#{ataBean.idParticipanteAtual}">
+					<p:selectOneMenu id="part" value="#{ataReuniaoBean.idParticipanteAtual}">
 						<f:selectItem itemValue="0" itemLabel="Selecione..." />
-						<f:selectItems value="#{participanteBean.participantes}" var="part" 
+						<f:selectItems value="#{ataReuniaoBean.participantes}" var="part" 
 						 itemLabel="#{part.nome}" itemValue="#{part.id}"  />
 					</p:selectOneMenu>
 					
 					<p:outputLabel value="Função: " for="func" />
-					<p:selectOneMenu id="func" value="#{ataBean.idFuncaoAtual}">
+					<p:selectOneMenu id="func" value="#{ataReuniaoBean.idFuncaoAtual}">
 						<f:selectItem itemValue="0" itemLabel="Selecione..." />
-						<f:selectItems value="#{funcaoBean.funcoes}" var="func" 
-						 itemLabel="#{func.nome}" itemValue="#{func.id}"  />
+						<f:selectItems value="#{ataReuniaoBean.funcoes}" var="func" 
+						 itemLabel="#{func.descricao}" itemValue="#{func.ordinal()}"  />
 					</p:selectOneMenu>
      	
-     	<p:commandButton value="Adicionar" icon="ui-icon-disk" action="#{#}"
-     	update=":mensagem" process="formTeste" oncomplete="PF('AddParticipante').hide();"/> 
+     	<p:commandButton value="Adicionar" icon="ui-icon-disk" action="#{ataReuniaoBean.adicionarParticipanteEfuncao()}"
+     	update=":mensagem, :FormAta:tableParticipante" process="formTeste" oncomplete="PF('AddParticipante').hide();"/> 
      	
 		<p:commandButton value="Fechar" icon="ui-icon-close" oncomplete="PF('AddParticipante').hide();"/>
 
@@ -169,6 +169,15 @@
  </h:form> 	
 
 
+ <h:form>
+   		 <h:outputText value="#{ataReuniaoBean.dataCronometro}" id="horaCronometro" >
+   		 	<f:convertDateTime pattern="HH:mm:ss" />
+   		 </h:outputText>
+    	 <p:poll interval="1" listener="#{ataReuniaoBean.incrementar}" update="horaCronometro" autoStart="false" widgetVar="poll" />
+    	 <p:commandButton oncomplete="PF('poll').start();" value="start"/>
+    	 
+    	 
+</h:form> 
 
 
 

@@ -22,6 +22,9 @@
 				<p:outputLabel value="Nome: " for="nome"/>
 				<p:inputText value="#{participanteBean.participante.nome}" id="nome" required="true" requiredMessage="Nome Obrigatório!" />
 				
+				<p:outputLabel value="Login: " for="login"/>
+				<p:inputText value="#{participanteBean.participante.login}" id="login" required="true" requiredMessage="login Obrigatório!" />
+				
 				<p:outputLabel value="Senha: " for="senha"/>
 				<p:password value="#{participanteBean.participante.senha}" id="senha" required="true" requiredMessage="Senha Obrigatória!" />
 				
@@ -38,6 +41,10 @@
 			 emptyMessage="Nenhuma função Cadastrada!" rows="10">
 				<p:column headerText="Nome" sortBy="#{part.nome}">
 					<h:outputText value="#{part.nome}" />
+				</p:column>
+				
+				<p:column headerText="Login" sortBy="#{part.login}">
+					<h:outputText value="#{part.login}" />
 				</p:column>
 				
 				<p:column style="width:55px" headerText="Editar">
