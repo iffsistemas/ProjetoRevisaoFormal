@@ -18,6 +18,7 @@ import modelo.Artefato;
 import modelo.AtaReuniao;
 import modelo.Participante;
 import modelo.ReuniaoParticipante;
+import modelo.Artefato.Situacao;
 import modelo.ReuniaoParticipante.Funcao;
 import service.AtaReuniaoService;
 import service.ParticipanteService;
@@ -30,7 +31,7 @@ public class AtaReuniaoBean {
 
 	
 	@EJB
-	AtaReuniaoService ataService;	
+	AtaReuniaoService ataReuniaoService;	
 	@EJB
 	ParticipanteService participanteService;
 	@EJB
@@ -39,10 +40,23 @@ public class AtaReuniaoBean {
 	private Date dataCronometro = new Date();
 	
 	private AtaReuniao ata = new AtaReuniao();
+	
+	AtaReuniao ataSelecionada = new AtaReuniao();
+	
+	private Artefato artefato = new Artefato();
+	
+	Integer idSituacaoAtual = 0;
+	
 	Long idParticipanteAtual = 0L;	
 	Integer idFuncaoAtual = 0;	
+	String senhaAssinatura;
 	
 	List<Participante> participantes = new ArrayList<Participante>();
+	
+	private String tituloArtefato;
+	
+	ReuniaoParticipante reuniaoParticipante = new ReuniaoParticipante();
+	
 	
 	public AtaReuniao getAta() {
 		return ata;
@@ -91,6 +105,66 @@ public class AtaReuniaoBean {
 		return lista;
 	}	
 	
+	
+	
+	public String getTituloArtefato() {
+		return tituloArtefato;
+	}
+
+	public void setTituloArtefato(String tituloArtefato) {
+		this.tituloArtefato = tituloArtefato;
+	}
+	
+	
+	public ReuniaoParticipante getReuniaoParticipante() {
+		return reuniaoParticipante;
+	}
+
+	public void setReuniaoParticipante(ReuniaoParticipante reuniaoParticipante) {
+		this.reuniaoParticipante = reuniaoParticipante;
+	}
+	
+	
+	
+
+	public AtaReuniao getAtaSelecionada() {
+		return ataSelecionada;
+	}
+
+	public void setAtaSelecionada(AtaReuniao ataSelecionada) {
+		this.ataSelecionada = ataSelecionada;
+	}
+	
+	
+	public Artefato getArtefato() {
+		return artefato;
+	}
+
+	public void setArtefato(Artefato artefato) {
+		this.artefato = artefato;
+	}
+
+	public Integer getIdSituacaoAtual() {
+		return idSituacaoAtual;
+	}
+
+	public void setIdSituacaoAtual(Integer idSituacaoAtual) {
+		this.idSituacaoAtual = idSituacaoAtual;
+	}
+	
+	public List<Situacao> getSituacoes(){
+		List<Situacao> situacoes = Arrays.asList(Situacao.values());
+		return situacoes;
+	}	
+	
+	public String getSenhaAssinatura() {
+		return senhaAssinatura;
+	}
+
+	public void setSenhaAssinatura(String senhaAssinatura) {
+		this.senhaAssinatura = senhaAssinatura;
+	}
+
 	@PostConstruct
 	public void init(){
 		setParticipantes(participanteService.listAll());
@@ -100,31 +174,72 @@ public class AtaReuniaoBean {
 		cal.set(Calendar.SECOND, 0);
 		setDataCronometro(cal.getTime());
 		
+		Artefato artefatoEnviado = (Artefato) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("artefatoEnviado");
+		getAta().setArtefato(artefatoEnviado);
+		setTituloArtefato(artefatoEnviado.getTitulo()); 
+		
+		getAta().setDataHoraInicio(new Date());
+		getAta().setDataHoraFim(new Date());
 		
 	}
 	
 	
 	
+	
+	
+	
+	public void salvarAta() {
+		String msg="Ata gravada com sucesso";
+	try {
+		if(getAta().getId()==null){ 
+			getAta().setFinalizada(Boolean.TRUE);
+			getAta().getArtefato().setSituacao(Situacao.values()[idSituacaoAtual]);
+			ataReuniaoService.gravarAtaReuniaoComParticipantes(ata);
+			setAta(new AtaReuniao());
+			FacesContext.getCurrentInstance().addMessage("menssagem", new FacesMessage("Parabéns!", msg));
+			
+	}
+		
+	} catch (RuntimeException erro) {
+		FacesContext.getCurrentInstance().addMessage("menssagem", new FacesMessage("ERRO!", "Ocorreu um erro Inesperado"));
+		erro.printStackTrace();
+				
+	}	}
+	
 	public void adicionarParticipanteEfuncao() {		
 		
 		if(idParticipanteAtual==0){
 			FacesContext.getCurrentInstance().addMessage(
-					"erro", new FacesMessage("Selecione um Participante ou Função"));
+					"erro", new FacesMessage("Selecione um Participante"));
 		}else{
 			Participante partAtual = participanteService.obtemPorId(idParticipanteAtual);
 			ReuniaoParticipante reuniaoPart = new ReuniaoParticipante();
 		 	reuniaoPart.setParticipante(partAtual);
 		 	reuniaoPart.setFuncao(Funcao.values()[idFuncaoAtual]);
-				if(getAta().getParticipantes().contains(reuniaoPart)) {
+				if(!getAta().getParticipantes().contains(reuniaoPart)) {
 				 	getAta().getParticipantes().add(reuniaoPart); 
 				}else {
 					FacesContext.getCurrentInstance().addMessage(
 							"erro", new FacesMessage("Participante já selecionado"));
-				}
 			}
+				}
 		}	
 
 
+	
+	public void removerParticipanteEfuncao(Participante partAtual) {
+		
+		ReuniaoParticipante reuniaoPart = new ReuniaoParticipante();
+		
+		
+		
+		 
+		
+		
+		FacesContext.getCurrentInstance().addMessage("menssagem", new FacesMessage("Parabéns!", "Participante Excluído com Sucesso"));
+		
+		
+	}
 
 	public void incrementar() {
 		Calendar cal = new GregorianCalendar();
@@ -141,6 +256,29 @@ public class AtaReuniaoBean {
 	 	reuniaoPart.setFuncao(Funcao.PRODUTOR);
 	 	getAta().getParticipantes().add(reuniaoPart);
 	}
+	
+	
+	public void assinaturas() {
+		Participante participanteAssinante = participanteService.obtemPorId(idParticipanteAtual);
+		
+		System.out.println(participanteAssinante.getNome());
+		
+		if(participanteAssinante.getSenha().equals(senhaAssinatura)) {
+			System.out.println("SenhaOK");
+		}else
+			System.out.println("Senha Não OK");
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }
 	

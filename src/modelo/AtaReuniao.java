@@ -24,13 +24,13 @@ public class AtaReuniao extends GenericId {
 	private String registrosProblemas;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date dataHoraInicio;
+	private Date dataHoraInicio = new Date();
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date dataHoraFim;
+	private Date dataHoraFim = new Date();
 	
-	private Boolean finalizada;
+	private Boolean finalizada = Boolean.FALSE;
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	private Artefato artefato;
 	
 	@OneToMany(cascade=CascadeType.ALL)

@@ -7,6 +7,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 
 import modelo.AtaReuniao;
+import modelo.Participante;
+import modelo.ReuniaoParticipante;
 
 @Stateless
 public class AtaReuniaoService extends GenericService<AtaReuniao> {
@@ -15,12 +17,12 @@ public class AtaReuniaoService extends GenericService<AtaReuniao> {
 		super(AtaReuniao.class);
 	} 
 	
-	/**public void gravarAtaReuniaoComParticipantes(AtaReuniao ata) {
+	public void gravarAtaReuniaoComParticipantes(AtaReuniao ata) {
 		for(ReuniaoParticipante part: ata.getParticipantes()) {
 			getEntityManager().persist(part);
 		}
-		create(ata);
-	}**/
+		merge(ata);
+	}
 
 	public List<AtaReuniao> listAtasComParticipantes(){
     	final CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();	
@@ -37,5 +39,7 @@ public class AtaReuniaoService extends GenericService<AtaReuniao> {
     		
     	return list;
     }	
+	
+	
 	
 }

@@ -16,20 +16,43 @@
 
 
 
+<h:form  >		
+		 <div align="center" >
+	<h:panelGrid columns="4"  style="width:500px;">
+		 <p:commandButton oncomplete="PF('poll').start();" value="Iniciar" icon="ui-icon-play"/>
+   		 <h:outputText value="#{ataReuniaoBean.dataCronometro}" id="horaCronometro" >
+   		 	<f:convertDateTime pattern="HH:mm:ss" />
+   		 </h:outputText>
+    	 <p:poll interval="1" listener="#{ataReuniaoBean.incrementar}" update="horaCronometro" autoStart="false" widgetVar="poll" />
+    	<p:commandButton oncomplete="PF('poll').stop();" value="Parar" icon="ui-icon-stop"/>
+    	
+    	</h:panelGrid> 
+    	 </div>
+ 	 
+ 	 
+  </h:form>
+
+<br></br>
+
 <h:form id="FormAta">		
 	<h:panelGrid columns="2">
+	
+		<p:outputLabel value="Artefato:"/>
+ 	 <p:outputLabel value="#{ataReuniaoBean.tituloArtefato}"/>
      	
-     	<p:outputLabel value="Título:" for="titulo"/>
-     	<p:inputTextarea id="titulo" value="#{#}"  rows="1" cols="30" autoResize="false" />
+     	<p:outputLabel value="Título da Ata:" for="titulo"/>
+     	<p:inputTextarea id="titulo" value="#{ataReuniaoBean.ata.titulo}"  rows="1" cols="30" autoResize="false" />
      	
      	<p:outputLabel value="Descrição:" for="descricao"/>
-     	<p:inputTextarea id="descricao" value="#{#}"  rows="2" cols="60" autoResize="false" />
+     	<p:inputTextarea id="descricao" value="#{ataReuniaoBean.ata.descricao}"  rows="3" cols="50" autoResize="false" />
      	
      	<p:outputLabel value="Local:" for="local"/>
-     	<p:inputTextarea id="local" value="#{#}"  rows="1" cols="30" autoResize="false" />
+     	<p:inputTextarea id="local" value="#{ataReuniaoBean.ata.local}"  rows="1" cols="30" autoResize="false" />
      	
      	<p:outputLabel value="Data:" for="data"/>
-     	<p:inputTextarea id="data" value="#{#}"  rows="4" cols="60" autoResize="false" />
+     	 <p:outputLabel id="data" value="#{ataReuniaoBean.ata.dataHoraInicio}"  >
+     	 <f:convertDateTime pattern="dd/MM/yyyy" />
+			</p:outputLabel>
      	
      	</h:panelGrid>
      	
@@ -51,38 +74,28 @@
 			</p:column>		
 			<p:column style="width:55px">
 				<f:facet name="header">Excluir</f:facet>
-				<p:commandButton icon="ui-icon-trash" action="#{#}" 
+				<p:commandButton icon="ui-icon-trash" action="#{ataReuniaoBean.removerParticipanteEfuncao(part)}" 
 				update=":mensagem, tableParticipante" process="tableParticipante" />   
 			</p:column>	
 		</p:dataTable>
 		
 		</p:fieldset>
 		
-		<h:panelGrid id="cronometro" columns="3">
-		
-		<!-- <h:form>
-   		 <h:outputText id="txt_count" value="#{ataReuniaoBean.cronometro}" />
-    	<p:poll interval="3" listener="#{ataReuniaoBean.cronometro()}" update="txt_count" />
-		</h:form> 
-		
-		
-		<h:form>
-  <p:outputLabel value="Current Time:" /> <p:outputLabel id="currentTime" value="#{ataReuniaoBean.cronometro}"/>
-  <p:poll interval="1"  listener="#{ataReuniaoBean.cronometro()}" update="currentTime" widgetVar="currentTimePoller" autoStart="false"/> <br/>
-  <p:button value="Start" onclick="ataReuniaoBean.cronometro()" href="#" />
-  <p:button value="Stop" onclick="currentTimePoller.stop()" href="#"/><br/>
-</h:form>
-	-->	
-		</h:panelGrid>
-		
- 
-		
+ 	
+ 					
 		
 		<h:panelGrid columns="2">
 		
 				
 		<p:outputLabel value="Relatório:" for="relatorio"/>
-     	<p:inputTextarea id="relatorio" value="#{#}"  rows="20" cols="97" autoResize="false" />
+     	<p:inputTextarea id="relatorio" value="#{ataReuniaoBean.ata.registrosProblemas}"  rows="20" cols="97" autoResize="false" />
+		
+		
+		<p:outputLabel value="Resultado: " for="sit" />
+					<p:selectOneMenu id="sit" value="#{ataReuniaoBean.idSituacaoAtual}">
+						<f:selectItems value="#{ataReuniaoBean.situacoes}" var="sit" 
+						 itemLabel="#{sit.descricao}" itemValue="#{sit.ordinal()}"  />
+					</p:selectOneMenu>
 		
 		</h:panelGrid>
 		
@@ -108,6 +121,9 @@
 		</p:column>	
 		</p:dataTable>
 		</p:fieldset>
+		
+		<p:commandButton value="Gravar" icon="ui-icon-disk" action="#{ataReuniaoBean.salvarAta()}" 
+				update=":mensagem, :FormAta" process="@form" />   
 		
 </h:form>	
 	
@@ -152,13 +168,16 @@
 
 		<h:panelGrid columns="2">
      	
-     	<p:outputLabel value="Nome:" for="nomeMed"/>
-     	<p:inputTextarea id="nomeMed" value="#{#}"  rows="2" cols="20" autoResize="false" />
+     	<p:outputLabel value="Participante " for="part" />
+					<p:selectOneMenu id="part" value="#{ataReuniaoBean.idParticipanteAtual}">
+						<f:selectItems value="#{ataReuniaoBean.participantes}" var="part" 
+						 itemLabel="#{part.nome}" itemValue="#{part.id()}"  />
+					</p:selectOneMenu>
      	
      	<p:outputLabel value="Senha" for="senhaAssinatura"/>
-     	<p:inputTextarea id="senhaAssinatura" value="#{#}"  rows="2" cols="20" autoResize="false" />
+     	<p:password value="#{ataReuniaoBean.senhaAssinatura}" id="senhaAssinatura" required="true" requiredMessage="Senha Obrigatória!" />
      	
-     	<p:commandButton value="Assinar" icon="ui-icon-disk" action="#{#}"
+     	<p:commandButton value="Assinar" icon="ui-icon-check" action="#{ataReuniaoBean.assinaturas()}"
      	update=":mensagem" process="formTeste" oncomplete="PF('AddAssinatura').hide();"/> 
      	
 		<p:commandButton value="Fechar" icon="ui-icon-close" oncomplete="PF('AddAssinatura').hide();"/>
@@ -168,16 +187,6 @@
 </p:dialog>
  </h:form> 	
 
-
- <h:form>
-   		 <h:outputText value="#{ataReuniaoBean.dataCronometro}" id="horaCronometro" >
-   		 	<f:convertDateTime pattern="HH:mm:ss" />
-   		 </h:outputText>
-    	 <p:poll interval="1" listener="#{ataReuniaoBean.incrementar}" update="horaCronometro" autoStart="false" widgetVar="poll" />
-    	 <p:commandButton oncomplete="PF('poll').start();" value="start"/>
-    	 
-    	 
-</h:form> 
 
 
 

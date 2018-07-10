@@ -11,10 +11,11 @@ import javax.persistence.OneToMany;
 @Entity
 public class Artefato extends GenericId{
 	
+	private String titulo;
 	private String descricao;
 	
 	@Enumerated(EnumType.ORDINAL)
-	private Situacao situacao;
+	private Situacao situacao ;
 	
 	@OneToMany(mappedBy="artefato")
 	private List<AtaReuniao> ataReuniao;
@@ -26,8 +27,21 @@ public class Artefato extends GenericId{
 	//@OneToMany
 	//private List<Anexo> anexos;
 
+	
+	
+	
 	public String getDescricao() {
 		return descricao;
+	}
+
+
+	public String getTitulo() {
+		return titulo;
+	}
+
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
 	}
 
 
@@ -37,6 +51,7 @@ public class Artefato extends GenericId{
 
 
 	public Situacao getSituacao() {
+		
 		return situacao;
 	}
 
@@ -67,13 +82,15 @@ public class Artefato extends GenericId{
 		this.produtor = produtor;
 	}
 
+	
+	
 
 
 
 	public enum Situacao {
+		PEDENTE("Pedente"),
 		ACEITO("Aceito"),
 		ACEITO_PROVISORIAMENTE("Aceito Provisoriamente"),
-		PEDENTE("Pedente"),
 		REJEITADO("Rejeitado");
 
 		final String descricao;

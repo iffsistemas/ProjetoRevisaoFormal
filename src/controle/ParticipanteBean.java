@@ -1,5 +1,6 @@
 package controle;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -104,6 +105,12 @@ public void salvarParticipante() {
 					FacesContext.getCurrentInstance().addMessage("menssagem", new FacesMessage("Parabéns!", msg));
 			
 		
+		
+	}
+	
+	public void validarLoginESenha() throws IOException {
+		
+		FacesContext.getCurrentInstance().getExternalContext().redirect("listaArtefatos.xhtml");
 		
 		
 	}
