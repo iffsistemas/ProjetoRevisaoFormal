@@ -1,5 +1,6 @@
 package controle;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -188,7 +189,7 @@ public class AtaReuniaoBean {
 	
 	
 	
-	public void salvarAta() {
+	public void salvarAta() throws IOException {
 		String msg="Ata gravada com sucesso";
 	try {
 		if(getAta().getId()==null){ 
@@ -197,6 +198,7 @@ public class AtaReuniaoBean {
 			ataReuniaoService.gravarAtaReuniaoComParticipantes(ata);
 			setAta(new AtaReuniao());
 			FacesContext.getCurrentInstance().addMessage("menssagem", new FacesMessage("Parabéns!", msg));
+			
 			
 	}
 		
