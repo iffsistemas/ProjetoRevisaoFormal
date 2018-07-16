@@ -27,8 +27,10 @@ public class ParticipanteBean {
 	private Participante participante = new Participante();
 	List<Participante> participantes = new ArrayList<Participante>();
 	
-	
-	
+	private String login;
+	private String senha;
+	private String confirmarSenha;
+	private Boolean achouParticipante = Boolean.FALSE;
 	
 	public ParticipanteService getParticipanteService() {
 		return participanteService;
@@ -53,6 +55,40 @@ public class ParticipanteBean {
 	public void setParticipantes(List<Participante> participantes) {
 		this.participantes = participantes;
 	}
+	
+	
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+	public String getConfirmarSenha() {
+		return confirmarSenha;
+	}
+
+	public void setConfirmarSenha(String confirmarSenha) {
+		this.confirmarSenha = confirmarSenha;
+	}
+	
+	
+	public Boolean getAchouParticipante() {
+		return achouParticipante;
+	}
+
+	public void setAchouParticipante(Boolean achouParticipante) {
+		this.achouParticipante = achouParticipante;
+	}
 
 	@PostConstruct
 	public void init(){
@@ -68,6 +104,8 @@ public class ParticipanteBean {
 public void salvarParticipante() {
 			String msg;
 		
+			if(participante.getSenha().equals(confirmarSenha)) {
+			
 			if(getParticipante().getId()==null){ 
 				
 				participanteService.create(participante);
@@ -84,6 +122,11 @@ public void salvarParticipante() {
 			setParticipante(new Participante());
 			atualizarParticipantes();
 			
+			}else {
+				
+				FacesContext.getCurrentInstance().addMessage("menssagem", new FacesMessage("Atenção!", "Senhas não coincidem."));
+				
+			}
 		
 }
 		
@@ -110,7 +153,38 @@ public void salvarParticipante() {
 	
 	public void validarLoginESenha() throws IOException {
 		
-		FacesContext.getCurrentInstance().getExternalContext().redirect("listaArtefatos.xhtml");
+		if (login.equals("admin") && (senha.equals("admin"))) {
+				setAchouParticipante(Boolean.TRUE);
+			
+		}else {
+			
+			for (Participante p: participantes) {
+			
+			if(login.equals(p.getNome()) && senha.equals(p.getSenha())) {
+				
+				setAchouParticipante(Boolean.TRUE);
+			}
+			
+			}
+		}	
+			
+			if(!getAchouParticipante()) {
+			
+				FacesContext.getCurrentInstance().addMessage("menssagem", new FacesMessage("ERRO!!", "Usuario e/ou Senha incorretos"));
+			 				
+			}else {
+				
+				FacesContext.getCurrentInstance().getExternalContext().redirect("listaArtefatos.xhtml");
+			
+			}
+			
+			
+	
+		
+		
+		
+		
+		
 		
 		
 	}

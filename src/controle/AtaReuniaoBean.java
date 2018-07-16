@@ -51,9 +51,12 @@ public class AtaReuniaoBean {
 	Long idParticipanteAtual = 0L;	
 	Integer idFuncaoAtual = 0;	
 	String senhaAssinatura;
+	boolean assinatura = Boolean.FALSE;
 	
 	List<Participante> participantes = new ArrayList<Participante>();
 	
+	List<Participante> assinaturas = new ArrayList<Participante>();
+		
 	private String tituloArtefato;
 	
 	ReuniaoParticipante reuniaoParticipante = new ReuniaoParticipante();
@@ -165,6 +168,24 @@ public class AtaReuniaoBean {
 	public void setSenhaAssinatura(String senhaAssinatura) {
 		this.senhaAssinatura = senhaAssinatura;
 	}
+	
+	
+	public boolean isAssinatura() {
+		return assinatura;
+	}
+
+	public void setAssinatura(boolean assinatura) {
+		this.assinatura = assinatura;
+	}
+	
+	 
+	public List<Participante> getAssinaturas() {
+		return assinaturas;
+	}
+
+	public void setAssinaturas(List<Participante> assinaturas) {
+		this.assinaturas = assinaturas;
+	}
 
 	@PostConstruct
 	public void init(){
@@ -180,8 +201,7 @@ public class AtaReuniaoBean {
 		setTituloArtefato(artefatoEnviado.getTitulo()); 
 		
 		getAta().setDataHoraInicio(new Date());
-		getAta().setDataHoraFim(new Date());
-		
+				
 	}
 	
 	
@@ -192,9 +212,12 @@ public class AtaReuniaoBean {
 	public void salvarAta() throws IOException {
 		String msg="Ata gravada com sucesso";
 	try {
+		
 		if(getAta().getId()==null){ 
+			getAta().setDataHoraFim(new Date());
 			getAta().setFinalizada(Boolean.TRUE);
 			getAta().getArtefato().setSituacao(Situacao.values()[idSituacaoAtual]);
+			//getAta().setDuracaoDaReuniao(ata.getDataHoraFim() - ata.getDataHoraInicio());
 			ataReuniaoService.gravarAtaReuniaoComParticipantes(ata);
 			setAta(new AtaReuniao());
 			FacesContext.getCurrentInstance().addMessage("menssagem", new FacesMessage("Parabéns!", msg));
@@ -231,7 +254,8 @@ public class AtaReuniaoBean {
 	
 	public void removerParticipanteEfuncao(Participante partAtual) {
 		
-		ReuniaoParticipante reuniaoPart = new ReuniaoParticipante();
+		
+		//getParticipantes().remove(partAtual);
 		
 		
 		
@@ -253,23 +277,42 @@ public class AtaReuniaoBean {
 
 	public void carregarProdutorAtefato(Artefato artefato) {
 		Participante partAtual = participanteService.obtemPorId(artefato.getProdutor().getId());
-		ReuniaoParticipante reuniaoPart = new ReuniaoParticipante();
-	 	reuniaoPart.setParticipante(partAtual);
-	 	reuniaoPart.setFuncao(Funcao.PRODUTOR);
-	 	getAta().getParticipantes().add(reuniaoPart);
+		reuniaoParticipante.setParticipante(partAtual);
+	 	reuniaoParticipante.setFuncao(Funcao.PRODUTOR);
+	 	getAta().getParticipantes().add(reuniaoParticipante);
 	}
 	
 	
-	public void assinaturas() {
+	
+	public void validarAssinatura() {
+				
 		Participante participanteAssinante = participanteService.obtemPorId(idParticipanteAtual);
 		
-		System.out.println(participanteAssinante.getNome());
+		for (Participante p: participantes) {
+			
+			if(p.getNome().equals(participanteAssinante.getNome()) && senhaAssinatura.equals(participanteAssinante.getSenha())) {
+				
+				setAssinatura(Boolean.TRUE);
+			}
 		
-		if(participanteAssinante.getSenha().equals(senhaAssinatura)) {
-			System.out.println("SenhaOK");
-		}else
-			System.out.println("Senha Não OK");
+		}
 		
+			if(assinatura) {
+				
+				assinaturas.add(participanteAssinante);
+				FacesContext.getCurrentInstance().addMessage("menssagem", new FacesMessage("Parabéns!", "Assinado!"));	
+				setAssinatura(Boolean.FALSE);
+				
+			}else {
+				FacesContext.getCurrentInstance().addMessage("menssagem", new FacesMessage("Não assinado!", "Senha Incorreta! Tente novamente."));
+				
+			}
+				
+			
+			setSenhaAssinatura("");
+			
+			
+				
 	}
 	
 	

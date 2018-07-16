@@ -29,6 +29,21 @@
 						 itemLabel="#{sit.descricao}" itemValue="#{sit.ordinal()}"  />
 					</p:selectOneMenu>
 					
+		<p:outputLabel value="Projeto " for="projeto" />
+	<p:selectOneMenu id="projeto" value="#{artefatoBean.idProjetoAtual}" required="true"  requiredMessage="Projeto Obrigatório!">
+		<f:selectItem  itemLabel="Selecione..." />
+		<f:selectItems value="#{artefatoBean.projetos}" var="proj" 
+			 itemLabel="#{proj.nome}" itemValue="#{proj.id}" />
+	</p:selectOneMenu>				
+				
+				<p:outputLabel value="Categoria: " for="categoria" />
+	<p:selectOneMenu id="categoria" value="#{artefatoBean.idCategoriaAtual}" required="true"  requiredMessage="Categoria Obrigatório!">
+		<f:selectItem  itemLabel="Selecione..." />
+		<f:selectItems value="#{artefatoBean.categorias}" var="cat" 
+			 itemLabel="#{cat.descricao}" itemValue="#{cat.ordinal()}" />
+	</p:selectOneMenu>		
+					
+					
 		<p:outputLabel value="Produtor: " for="prod" />
 	<p:selectOneMenu id="prod" value="#{artefatoBean.idParticipanteAtual}" required="true"  requiredMessage="Produtor Obrigatório!">
 		<f:selectItem  itemLabel="Selecione..." />

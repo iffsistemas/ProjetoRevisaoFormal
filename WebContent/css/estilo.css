@@ -32,6 +32,39 @@ body{
 	margin: 10px auto;
 }
 
+#principal{
+    position:absolute;
+    left:50%;
+    top:50%;
+    margin-left:-460px;
+    margin-top:-135px;
+    width: 920px;
+    height: 270px;
+    padding: 10px;
+    text-align: left;
+    font-family: calibri;
+    font-size: 17px;
+   
+}
+
+#msg1 
+ {
+    float: left;
+    padding: 10px;
+    font-family: Cambria;
+    font-size: 21px;
+    color: #6495ED;
+    text-align: left;
+ }
+ #msg2 
+ {
+    float: left;
+    padding: 10px;
+    font-family: calibri;
+    color: #6495ED;
+    font-size: 15px;
+    text-align: left;
+ }
 
 .rodape{
 	text-align: center;

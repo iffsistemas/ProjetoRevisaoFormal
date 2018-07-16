@@ -17,8 +17,6 @@ public class AtaReuniao extends GenericId {
 
 	
 	private String titulo;
-	@Lob
-	private String descricao;
 	private String local;
 	@Lob
 	private String registrosProblemas;
@@ -35,6 +33,9 @@ public class AtaReuniao extends GenericId {
 	
 	@OneToMany(cascade=CascadeType.ALL)
 	private List<ReuniaoParticipante> participantes = new ArrayList<ReuniaoParticipante>();
+	
+	
+	private Date duracaoDaReuniao;
 
 	public String getTitulo() {
 		return titulo;
@@ -44,14 +45,7 @@ public class AtaReuniao extends GenericId {
 		this.titulo = titulo;
 	}
 
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-
+	
 	public String getLocal() {
 		return local;
 	}
@@ -106,6 +100,14 @@ public class AtaReuniao extends GenericId {
 
 	public void setParticipantes(List<ReuniaoParticipante> participantes) {
 		this.participantes = participantes;
+	}
+
+	public Date getDuracaoDaReuniao() {
+		return duracaoDaReuniao;
+	}
+
+	public void setDuracaoDaReuniao(Date duracaoDaReuniao) {
+		this.duracaoDaReuniao = duracaoDaReuniao;
 	}
 	
 	

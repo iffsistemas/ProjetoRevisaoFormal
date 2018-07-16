@@ -17,12 +17,19 @@ public class Artefato extends GenericId{
 	@Enumerated(EnumType.ORDINAL)
 	private Situacao situacao ;
 	
+	@Enumerated(EnumType.ORDINAL)
+	private Categoria categoria ;
+	
 	@OneToMany(mappedBy="artefato")
 	private List<AtaReuniao> ataReuniao;
 	
 	
 	@ManyToOne(optional=false)
 	private Participante produtor;
+	
+	
+	@ManyToOne(optional=false)
+	private Projeto projeto;
 	
 	//@OneToMany
 	//private List<Anexo> anexos;
@@ -60,9 +67,17 @@ public class Artefato extends GenericId{
 		this.situacao = situacao;
 	}
 
-	
+		
+	public Categoria getCategoria() {
+		return categoria;
+	}
 
-	
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
+
+
 	public List<AtaReuniao> getAtaReuniao() {
 		return ataReuniao;
 	}
@@ -83,12 +98,22 @@ public class Artefato extends GenericId{
 	}
 
 	
-	
+	public Projeto getProjeto() {
+		return projeto;
+	}
+
+
+	public void setProjeto(Projeto projeto) {
+		this.projeto = projeto;
+	}
+
+
+
 
 
 
 	public enum Situacao {
-		PEDENTE("Pedente"),
+		NAO_REVISADO("Não Revisado"),
 		ACEITO("Aceito"),
 		ACEITO_PROVISORIAMENTE("Aceito Provisoriamente"),
 		REJEITADO("Rejeitado");
@@ -107,6 +132,32 @@ public class Artefato extends GenericId{
 			return this.ordinal();
 		}
 	}
+	
+	
+	public enum Categoria {
+		ESCOPO_DO_PROJETO("Escopo do Projeto"),
+		DOCUMENTOS_REQUISITOS("Documentos de Requisitos"),
+		CODIGO_FONTE("Código Fonte"),
+		CASO_DE_TESTE("Caso de Teste"),
+		CASO_DE_USO("Caso de Uso");
+		
+
+		final String descricao;
+	    
+		private Categoria(String valor) {
+	        this.descricao = valor;
+	    }
+
+		public String getDescricao() {
+			return descricao;
+		}	
+		
+		public int getOrdinal() {
+			return this.ordinal();
+		}
+	}
+	
+	
 	
 	
 }

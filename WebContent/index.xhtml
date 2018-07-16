@@ -6,35 +6,38 @@
       xmlns:p="http://primefaces.org/ui">
 
 
-<ui:composition template="/templates/templates.xhtml"> 
+<ui:composition template="/templates/templateIndex.xhtml"> 
 
 
-<ui:define name="titulo">Bem-Vindo</ui:define>
+<ui:define name="titulo"></ui:define>
 
 
 <ui:define name="conteudo">
 
-			
 
-<h:form>
-            <p:messages id="messagemLogin" />
+<h:graphicImage library="imagens" name="logoIndex.png"/>
+
+<h:form id="formLogin">
+
+	<p:growl id="mensagemLogin" life="5000" showDetail="true" />
+            <div align="center" >
             <p:panelGrid columns="2">
+            
+            
                   <p:outputLabel for="login" value="Login:" required="true" requiredMessage="Nome Obrigatório!" />
-                  <p:inputText id="login" value="#{#}" />
+                  <p:inputText id="login" value="#{participanteBean.login}" />
                    
                   <p:outputLabel for="senha" value="Senha:" />
-                  <p:password id="senha" value="#{#}" />
-                   
-                  <p:commandButton value="Enviar" icon="ui-icon-star" update="messagemLogin" 
+                  <p:password id="senha" value="#{participanteBean.senha}" />
+                  
+                                   
+                  <p:commandButton value="Enviar" icon="ui-icon-star"  update=":formLogin" process="@form"
                   action="#{participanteBean.validarLoginESenha()}"/>
                
   
             </p:panelGrid>
+            </div>
       </h:form>
-
-
-
-
 
 
   

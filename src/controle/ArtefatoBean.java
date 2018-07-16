@@ -13,11 +13,14 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import modelo.Artefato;
+import modelo.Artefato.Categoria;
 import modelo.Artefato.Situacao;
 import modelo.AtaReuniao;
 import modelo.Participante;
+import modelo.Projeto;
 import service.ArtefatoService;
 import service.ParticipanteService;
+import service.ProjetoService;
 
 
 
@@ -27,19 +30,23 @@ public class ArtefatoBean {
 	
 	@EJB
 	ArtefatoService artefatoService;
-
 	@EJB
 	ParticipanteService participanteService;
+	@EJB
+	ProjetoService projetoService;
 	
 	List<Participante> participantes = new ArrayList<Participante>();
+	List<Projeto> projetos = new ArrayList<Projeto>();
 	
 	private Artefato artefato = new Artefato();
 	
 	private List<Artefato> artefatos = new ArrayList<Artefato>();
 	
 	Long idParticipanteAtual = 0L;	
+	Long idProjetoAtual = 0L;
 	
 	Integer idSituacaoAtual = 0;
+	Integer idCategoriaAtual= 0;
 	
 	Artefato artefatoSelecionado = new Artefato();
 	
@@ -98,6 +105,10 @@ public class ArtefatoBean {
 		return situacoes;
 	}	
 	
+	public List<Categoria> getCategorias(){
+		List<Categoria> categorias = Arrays.asList(Categoria.values());
+		return categorias;
+	}	
 
 	public List<Participante> getParticipantes() {
 		return participantes;
@@ -142,11 +153,39 @@ public class ArtefatoBean {
 	public void setAtaReuniaoSelecionada(AtaReuniao ataReuniaoSelecionada) {
 		this.ataReuniaoSelecionada = ataReuniaoSelecionada;
 	}
+	
+	
+	public Long getIdProjetoAtual() {
+		return idProjetoAtual;
+	}
+
+	public void setIdProjetoAtual(Long idProjetoAtual) {
+		this.idProjetoAtual = idProjetoAtual;
+	}
+	
+	
+	public List<Projeto> getProjetos() {
+		return projetos;
+	}
+
+	public void setProjetos(List<Projeto> projetos) {
+		this.projetos = projetos;
+	}
+	
+	
+	public Integer getIdCategoriaAtual() {
+		return idCategoriaAtual;
+	}
+
+	public void setIdCategoriaAtual(Integer idCategoriaAtual) {
+		this.idCategoriaAtual = idCategoriaAtual;
+	}
 
 	@PostConstruct
 	public void init(){
 		setParticipantes(participanteService.listAll());
 		setArtefatos(artefatoService.listAll());
+		setProjetos(projetoService.listAll());
 		atualizarArtefatos();
 		
 		
@@ -169,6 +208,9 @@ public class ArtefatoBean {
 	
 		if(getArtefato().getId()==null){ 
 			Participante partAtual = participanteService.obtemPorId(idParticipanteAtual);
+			Projeto projAtual = projetoService.obtemPorId(idProjetoAtual);
+			artefato.setProjeto(projAtual);
+			artefato.setCategoria(Categoria.values()[idCategoriaAtual]);
 			artefato.setProdutor(partAtual);
 			artefato.setSituacao(Situacao.values()[idSituacaoAtual]);
 			artefatoService.create(artefato);

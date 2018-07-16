@@ -12,18 +12,45 @@
 <ui:define name="titulo">Artefatos Cadastrados</ui:define>
 
 
+<h5>Buscar por:</h5>
+
 <ui:define name="conteudo">
 
+
+
+<h:form id="formBuscar">
+
+<p:fieldset legend="Buscar por..."> 
+	<h:panelGrid columns="5">
+	
+	<p:outputLabel value="Categoria: " for="categoria" />
+	<p:selectOneMenu id="categoria" value="#{artefatoBean.idCategoriaAtual}">
+		<f:selectItems value="#{artefatoBean.categorias}" var="cat" 
+			 itemLabel="#{cat.descricao}" itemValue="#{cat.ordinal()}" />
+	</p:selectOneMenu>	
+
+<p:outputLabel value="Projeto " for="projeto" />
+	<p:selectOneMenu id="projeto" value="#{artefatoBean.idProjetoAtual}">
+		<f:selectItems value="#{artefatoBean.projetos}" var="proj" 
+			 itemLabel="#{proj.nome}" itemValue="#{proj.id}" />
+	</p:selectOneMenu>	
+	
+	<p:commandButton value="Buscar" icon="ui-icon-search" action="#{#}" 
+	update=":formListaArtefatos:tableArtefatos :formTodasAtas:tableTodasAtas"/>			
+
+	</h:panelGrid>	
+	
+	</p:fieldset>
+	
+	<br></br>			
+					
+</h:form>
 
 <h:form id="formListaArtefatos">
 	<p:dataTable value="#{artefatoBean.artefatos}" var="art"
 	paginator="true" id="tableArtefatos"  emptyMessage="Nenhum artefato cadastrado!" rows="20">
 		
-		<p:column style="width:20px" sortBy="#{art.id}">
-			<f:facet  name="header">Cod.</f:facet>
-			<p:outputLabel value="#{art.id}" />
-		</p:column>
-		
+			
 		<p:column sortBy="#{art.titulo}" filterBy="#{art.titulo}">
 			<f:facet  name="header">Titulo</f:facet>
 			<p:outputLabel value="#{art.titulo}" />
@@ -38,18 +65,28 @@
 			<p:outputLabel value="#{art.produtor.nome}"/>
 		</p:column>		
 		<p:column style="width:85px">
+			<f:facet name="header">Projeto</f:facet>
+			<p:outputLabel value="#{art.projeto.nome}"/>
+		</p:column>	
+		
+		<p:column style="width:85px">
+			<f:facet name="header">Categoria</f:facet>
+			<p:outputLabel value="#{art.categoria.descricao}"/>
+		</p:column>	
+		
+		<p:column style="width:85px">
 			<f:facet name="header">Situacão</f:facet>
 			<p:outputLabel value="#{art.situacao.descricao}"/>
 		</p:column>		
 		
-		<p:column style="width:80px">
+		<p:column style="width:50px">
 			<f:facet name="header">Fazer Reuniao</f:facet>
 			<p:commandButton icon="ui-icon-extlink" action="#{artefatoBean.chamarNovaAta()}" >
 			<f:setPropertyActionListener value="#{art}" target="#{artefatoBean.artefatoSelecionado}" />
 			</p:commandButton>
 			</p:column>
 			
-			<p:column style="width:55px">
+			<p:column style="width:40px">
 				<f:facet name="header">Ver Atas</f:facet>
 				<p:commandButton action="#{artefatoBean.carregarAtas()}" update=":formTodasAtas:tableTodasAtas" 
 				icon="ui-icon-extlink" oncomplete="PF('dialogTodasAtas').show()">
@@ -58,7 +95,7 @@
 			</p:column>	
 			
 							
-			<p:column style="width:55px">
+			<p:column style="width:45px">
 			<f:facet name="header">Excluir</f:facet>
 			<p:commandButton icon="ui-icon-trash" action="#{artefatoBean.excluirArtefato(art)}"
 			 update=":mensagem :formListaArtefatos:tableArtefatos"  process="@form">
@@ -90,11 +127,19 @@ draggable="false" resizable="false" modal="true" showEffect="slide" hideEffect="
 		
 			
 		<p:column>
-			<f:facet name="header">Dt. Ata</f:facet>
+			<f:facet name="header">Início</f:facet>
 			<h:outputText value="#{ata.dataHoraInicio}" >
 			<f:convertDateTime pattern="dd/MM/yyyy - HH:mm" />
 			</h:outputText>
 		</p:column>
+		
+		<p:column>
+			<f:facet name="header">Fim</f:facet>
+			<h:outputText value="#{ata.dataHoraFim}" >
+			<f:convertDateTime pattern="dd/MM/yyyy - HH:mm" />
+			</h:outputText>
+		</p:column>
+				
 		<p:column>
 			<f:facet name="header">Local:</f:facet>
 			<h:outputText value="#{ata.local}" />
