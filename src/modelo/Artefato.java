@@ -1,12 +1,15 @@
 package modelo;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Artefato extends GenericId{
@@ -17,15 +20,15 @@ public class Artefato extends GenericId{
 	@Enumerated(EnumType.ORDINAL)
 	private Situacao situacao ;
 	
-	@Enumerated(EnumType.ORDINAL)
+	@OneToOne
 	private Categoria categoria ;
 	
 	@OneToMany(mappedBy="artefato")
 	private List<AtaReuniao> ataReuniao;
 	
 	
-	@ManyToOne(optional=false)
-	private Participante produtor;
+	@OneToMany(cascade=CascadeType.ALL)
+	private List<ArtefatoParticipante> artefato_participantes = new ArrayList<ArtefatoParticipante>();
 	
 	
 	@ManyToOne(optional=false)
@@ -86,18 +89,18 @@ public class Artefato extends GenericId{
 	public void setAtaReuniao(List<AtaReuniao> ataReuniao) {
 		this.ataReuniao = ataReuniao;
 	}
-
-
-	public Participante getProdutor() {
-		return produtor;
-	}
-
-
-	public void setProdutor(Participante produtor) {
-		this.produtor = produtor;
-	}
-
 	
+	
+	public List<ArtefatoParticipante> getArtefato_participantes() {
+		return artefato_participantes;
+	}
+
+
+	public void setArtefato_participantes(List<ArtefatoParticipante> artefato_participantes) {
+		this.artefato_participantes = artefato_participantes;
+	}
+
+
 	public Projeto getProjeto() {
 		return projeto;
 	}
@@ -133,6 +136,7 @@ public class Artefato extends GenericId{
 		}
 	}
 	
+	/*
 	
 	public enum Categoria {
 		ESCOPO_DO_PROJETO("Escopo do Projeto"),
@@ -157,7 +161,7 @@ public class Artefato extends GenericId{
 		}
 	}
 	
-	
+	*/
 	
 	
 }

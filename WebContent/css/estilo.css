@@ -105,15 +105,11 @@ border-collapse: nome;
 	min-width: 80%;
 }
 
-.input-exames-labo{
-	width: 100px;
-}
 
-.input-taco{
-	width: 40px;
+
+.tamanho-SelectOneMenu{
+	width: 200px;
 }
 
 
-.columnClasses-labo{
-	padding-right: 50px;
-}
+

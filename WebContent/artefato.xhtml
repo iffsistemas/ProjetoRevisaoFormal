@@ -9,7 +9,7 @@
 <ui:composition template="/templates/templates.xhtml"> 
 
 
-<ui:define name="titulo">Cadastrar Artefatos</ui:define>
+<ui:define name="titulo">Nova Revisão de Artefato</ui:define>
 
 
 <ui:define name="conteudo">
@@ -17,67 +17,72 @@
 <h:form id="formArtefato">		
 	<h:panelGrid columns="2">
      	
-     	<p:outputLabel value="Título:" for="titulo"/>
+     	<p:outputLabel value="Título da RTF" for="titulo"/>
      	<p:inputTextarea id="titulo" value="#{artefatoBean.artefato.titulo}"  rows="1" cols="60" autoResize="false" required="true" requiredMessage="Título Obrigatório!" />
      	
      	<p:outputLabel value="Descrição:" for="descricao"/>
      	<p:inputTextarea id="descricao" value="#{artefatoBean.artefato.descricao}"  rows="6" cols="60" autoResize="false" />
      	
      	<p:outputLabel value="Situacão: " for="sit" />
-					<p:selectOneMenu id="sit" value="#{artefatoBean.idSituacaoAtual}">
+					<p:selectOneMenu id="sit" value="#{artefatoBean.idSituacaoAtual}" style="width:150px;">
 						<f:selectItems value="#{artefatoBean.situacoes}" var="sit" 
 						 itemLabel="#{sit.descricao}" itemValue="#{sit.ordinal()}"  />
 					</p:selectOneMenu>
 					
 		<p:outputLabel value="Projeto " for="projeto" />
-	<p:selectOneMenu id="projeto" value="#{artefatoBean.idProjetoAtual}" required="true"  requiredMessage="Projeto Obrigatório!">
+	<p:selectOneMenu id="projeto" value="#{artefatoBean.idProjetoAtual}" required="true"  
+	requiredMessage="Projeto Obrigatório!" style="width:150px;">
 		<f:selectItem  itemLabel="Selecione..." />
 		<f:selectItems value="#{artefatoBean.projetos}" var="proj" 
 			 itemLabel="#{proj.nome}" itemValue="#{proj.id}" />
 	</p:selectOneMenu>				
 				
 				<p:outputLabel value="Categoria: " for="categoria" />
-	<p:selectOneMenu id="categoria" value="#{artefatoBean.idCategoriaAtual}" required="true"  requiredMessage="Categoria Obrigatório!">
+	<p:selectOneMenu id="categoria" value="#{artefatoBean.idCategoriaAtual}" required="true"  
+	requiredMessage="Categoria Obrigatório!" style="width:150px;">
 		<f:selectItem  itemLabel="Selecione..." />
 		<f:selectItems value="#{artefatoBean.categorias}" var="cat" 
-			 itemLabel="#{cat.descricao}" itemValue="#{cat.ordinal()}" />
+			 itemLabel="#{cat.nome}" itemValue="#{cat.id}" />
 	</p:selectOneMenu>		
 					
 					
-		<p:outputLabel value="Produtor: " for="prod" />
-	<p:selectOneMenu id="prod" value="#{artefatoBean.idParticipanteAtual}" required="true"  requiredMessage="Produtor Obrigatório!">
-		<f:selectItem  itemLabel="Selecione..." />
-		<f:selectItems value="#{artefatoBean.participantes}" var="part" 
-			 itemLabel="#{part.nome}" itemValue="#{part.id}" />
-	</p:selectOneMenu>			
-     	
+	   	
      	</h:panelGrid>
      	
-     	<!-- 
-     	<p:fieldset legend="Produtor(es)" id="fieldProdutor" >
-     	
-     	
      	    	
-     	<p:commandButton value="Adicionar Produtor" icon="ui-icon-plus" oncomplete="PF('AddProdutor').show();"/>
+          	
+     	<p:fieldset legend="Participantes" id="fieldParticipantes" >
+     	
+     	
+     	<p:commandButton value="Adicionar" icon="ui-icon-plus" oncomplete="PF('AddParticipante').show();"/>
      		   
      	
-     	<p:dataTable style="max-width: 600px; min-width: 600px" value="#{#}" var="med"
-	paginator="true" id="tableProdutor"  emptyMessage="Nenhum Produtor Cadastrado!" rows="5" >
-		<p:column>
-			<f:facet name="header">Nome</f:facet>
-			<h:outputText value="#{#}" />
-		</p:column>
-		<p:column style="width:55px">
-			<f:facet name="header">Excluir</f:facet>
-			<p:commandButton icon="ui-icon-trash" action="#{#}" 
-			update=":mensagem, tableProdutor" process="tableProdutor" />   
-		</p:column>	
-			
-	</p:dataTable>		
+     	<p:dataTable style="max-width: 600px; min-width: 600px" value="#{artefatoBean.artefato.artefato_participantes}" var="part"
+			paginator="true" id="tableParticipante"  emptyMessage="Nenhum Participante Cadastrado!" rows="7" >
+			<p:column>
+				<f:facet name="header">Nome</f:facet>
+				<h:outputText value="#{part.participante.nome}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Função</f:facet>
+				<h:outputText value="#{part.funcao.descricao}" />
+			</p:column>		
+			<p:column style="width:55px">
+				<f:facet name="header">Excluir</f:facet>
+				<p:commandButton icon="ui-icon-trash" action="#{#}" 
+				update=":mensagem, tableParticipante" process="tableParticipante" />   
+			</p:column>	
+		</p:dataTable>     	
+     	    	
+ 		
 		</p:fieldset>
 		
+		<br></br>
 		
-		-->  
+		<p:fileUpload label="Anexos" value="#{#}" mode="simple" skinSimple="true"/>
+		
+		<br></br><br></br>
+		
 		 <p:commandButton action="#{artefatoBean.salvarArtefato()}" value="Salvar" 
 				update=":mensagem :formArtefato"  process="@form" />		
 	
@@ -85,29 +90,34 @@
 	
 		
 		
-	<h:form id="formAddProdutor">
- 	<p:dialog  header="Adicionar Produtor" widgetVar="AddProdutor" resizable="false" 
- 		draggable="false" modal="true" showEffect="side" hideEffect="side"  >
+<h:form id="formTeste">
+ 	<p:dialog  header="Adicionar Participante" widgetVar="AddParticipante" resizable="false" 
+ 		draggable="false" modal="true" showEffect="slide" hideEffect="slide"  >
 
-		      	
-     	<h:panelGrid columns="2">
-		<p:outputLabel value="Produtor " for="prod" />
-	<p:selectOneMenu id="prod" value="#{artefatoBean.idParticipanteAtual}">
-		<f:selectItem itemValue="0" itemLabel="Selecione..." />
-		<f:selectItems value="#{artefatoBean.participantes}" var="part" 
-			 itemLabel="#{part.nome}" itemValue="#{part.id}"  />
-	</p:selectOneMenu>
-     	<p:commandButton value="Adicionar" icon="ui-icon-disk" action="#{artefatoBean.adicionarProdutor()}"
-     	update=":mensagem " process="formAddProdutor" oncomplete="PF('AddProdutor').hide();"/> 
+		<h:panelGrid columns="2">
+					<p:outputLabel value="Participante: " for="part" />
+					<p:selectOneMenu id="part" value="#{artefatoBean.idParticipanteAtual}">
+						<f:selectItem itemValue="0" itemLabel="Selecione..." />
+						<f:selectItems value="#{artefatoBean.participantes}" var="part" 
+						 itemLabel="#{part.nome}" itemValue="#{part.id}"  />
+					</p:selectOneMenu>
+					
+					<p:outputLabel value="Função: " for="func" />
+					<p:selectOneMenu id="func" value="#{artefatoBean.idFuncaoAtual}">
+						<f:selectItem itemValue="0" itemLabel="Selecione..." />
+						<f:selectItems value="#{artefatoBean.funcoes}" var="func" 
+						 itemLabel="#{func.descricao}" itemValue="#{func.ordinal()}"  />
+					</p:selectOneMenu>
+					     	
+     	<p:commandButton value="Adicionar" icon="ui-icon-disk" action="#{artefatoBean.adicionarParticipanteEfuncao()}"
+     	update=":mensagem, :formArtefato:tableParticipante" process="formTeste" oncomplete="PF('AddParticipante').hide();"/> 
      	
-		<p:commandButton value="Fechar" icon="ui-icon-close" oncomplete="PF('AddProdutor').hide();"/>
+		<p:commandButton value="Fechar" icon="ui-icon-close" oncomplete="PF('AddParticipante').hide();"/>
 
 		</h:panelGrid>	
 		
 </p:dialog>
  </h:form> 	
-
-
 
 
 

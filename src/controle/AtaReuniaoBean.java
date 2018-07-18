@@ -41,10 +41,9 @@ public class AtaReuniaoBean {
 	private Date dataCronometro = new Date();
 	
 	private AtaReuniao ata = new AtaReuniao();
-	
-	AtaReuniao ataSelecionada = new AtaReuniao();
-	
+	private AtaReuniao ataSelecionada = new AtaReuniao();
 	private Artefato artefato = new Artefato();
+	private ReuniaoParticipante reuniaoParticipante = new ReuniaoParticipante();
 	
 	Integer idSituacaoAtual = 0;
 	
@@ -54,12 +53,13 @@ public class AtaReuniaoBean {
 	boolean assinatura = Boolean.FALSE;
 	
 	List<Participante> participantes = new ArrayList<Participante>();
-	
 	List<Participante> assinaturas = new ArrayList<Participante>();
 		
-	private String tituloArtefato;
 	
-	ReuniaoParticipante reuniaoParticipante = new ReuniaoParticipante();
+	
+	
+	
+	private String tituloArtefato;
 	
 	
 	public AtaReuniao getAta() {
@@ -275,6 +275,7 @@ public class AtaReuniaoBean {
 	}
 	
 
+	/*
 	public void carregarProdutorAtefato(Artefato artefato) {
 		Participante partAtual = participanteService.obtemPorId(artefato.getProdutor().getId());
 		reuniaoParticipante.setParticipante(partAtual);
@@ -282,7 +283,7 @@ public class AtaReuniaoBean {
 	 	getAta().getParticipantes().add(reuniaoParticipante);
 	}
 	
-	
+	*/
 	
 	public void validarAssinatura() {
 				

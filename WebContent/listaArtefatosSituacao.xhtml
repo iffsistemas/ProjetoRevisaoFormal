@@ -23,17 +23,12 @@
 <p:fieldset legend="Buscar por..."> 
 	<h:panelGrid columns="5">
 	
-	<p:outputLabel value="Categoria: " for="categoria" />
-	<p:selectOneMenu id="categoria" value="#{artefatoBean.idCategoriaAtual}" style="width:150px;">
-		<f:selectItems value="#{artefatoBean.categorias}" var="cat" 
-			 itemLabel="#{cat.nome}" itemValue="#{cat.id}" />
+	<p:outputLabel value="Situação: " for="situacao" />
+	<p:selectOneMenu id="situacao" value="#{artefatoBean.idSituacaoAtual}" style="width:150px;">
+		<f:selectItems value="#{artefatoBean.situacoes}" var="sit" 
+			 itemLabel="#{sit.descricao}" itemValue="#{sit.ordinal()}" />
 	</p:selectOneMenu>	
 
-<p:outputLabel value="Projeto: " for="projeto" />
-	<p:selectOneMenu id="projeto" value="#{artefatoBean.idProjetoAtual}" style="width:150px;">
-		<f:selectItems value="#{artefatoBean.projetos}" var="proj" 
-			 itemLabel="#{proj.nome}" itemValue="#{proj.id}" />
-	</p:selectOneMenu>	
 	
 	<p:commandButton value="Buscar" icon="ui-icon-search" action="#{#}" 
 	update=":formListaArtefatos:tableArtefatos :formTodasAtas:tableTodasAtas"/>			
@@ -168,7 +163,6 @@ draggable="false" resizable="false" modal="true" showEffect="slide" hideEffect="
 	
 
 <p:panelGrid  columns="2" id="panelAtaSelecionada">	
-	
 	
 	
     

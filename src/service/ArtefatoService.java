@@ -8,8 +8,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import modelo.Artefato;
-import modelo.Artefato.Categoria;
 import modelo.AtaReuniao;
+import modelo.Categoria;
 import modelo.Projeto;
 
 @Stateless

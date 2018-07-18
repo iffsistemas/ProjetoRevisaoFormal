@@ -13,12 +13,16 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import modelo.Artefato;
-import modelo.Artefato.Categoria;
 import modelo.Artefato.Situacao;
+import modelo.ReuniaoParticipante.Funcao;
+import modelo.ArtefatoParticipante;
 import modelo.AtaReuniao;
+import modelo.Categoria;
 import modelo.Participante;
 import modelo.Projeto;
+import modelo.ReuniaoParticipante;
 import service.ArtefatoService;
+import service.CategoriaService;
 import service.ParticipanteService;
 import service.ProjetoService;
 
@@ -34,25 +38,28 @@ public class ArtefatoBean {
 	ParticipanteService participanteService;
 	@EJB
 	ProjetoService projetoService;
+	@EJB
+	CategoriaService categoriaService;
 	
-	List<Participante> participantes = new ArrayList<Participante>();
-	List<Projeto> projetos = new ArrayList<Projeto>();
 	
 	private Artefato artefato = new Artefato();
+	private Artefato artefatoSelecionado = new Artefato();
+	private AtaReuniao ataReuniaoSelecionada = new AtaReuniao();
+	private ArtefatoParticipante artefatoParticipante = new ArtefatoParticipante();
 	
+	private List<Participante> participantes = new ArrayList<Participante>();
+	private List<Projeto> projetos = new ArrayList<Projeto>();
+	private List<Categoria> categorias = new ArrayList<Categoria>();
 	private List<Artefato> artefatos = new ArrayList<Artefato>();
+	private List<AtaReuniao> atas = new ArrayList<AtaReuniao>();
+	
 	
 	Long idParticipanteAtual = 0L;	
 	Long idProjetoAtual = 0L;
-	
+	Long idCategoriaAtual= 0L;
 	Integer idSituacaoAtual = 0;
-	Integer idCategoriaAtual= 0;
+	Integer idFuncaoAtual = 0;
 	
-	Artefato artefatoSelecionado = new Artefato();
-	
-	AtaReuniao ataReuniaoSelecionada = new AtaReuniao();
-	
-	private List<AtaReuniao> atas = new ArrayList<AtaReuniao>();
 	
 
 	public Artefato getArtefato() {
@@ -71,8 +78,7 @@ public class ArtefatoBean {
 		this.artefatos = artefatos;
 	}
 	
-	
-	
+		
 	public ArtefatoService getArtefatoService() {
 		return artefatoService;
 	}
@@ -89,8 +95,7 @@ public class ArtefatoBean {
 		this.participanteService = participanteService;
 	}
 
-	
-	
+		
 	public Integer getIdSituacaoAtual() {
 		return idSituacaoAtual;
 	}
@@ -105,11 +110,17 @@ public class ArtefatoBean {
 		return situacoes;
 	}	
 	
+	/*
 	public List<Categoria> getCategorias(){
 		List<Categoria> categorias = Arrays.asList(Categoria.values());
 		return categorias;
 	}	
-
+*/
+	
+	public List<Funcao> getFuncoes(){
+		List<Funcao> lista = Arrays.asList(Funcao.values());
+		return lista;
+	}	
 	public List<Participante> getParticipantes() {
 		return participantes;
 	}
@@ -173,12 +184,38 @@ public class ArtefatoBean {
 	}
 	
 	
-	public Integer getIdCategoriaAtual() {
+	public Long getIdCategoriaAtual() {
 		return idCategoriaAtual;
 	}
 
-	public void setIdCategoriaAtual(Integer idCategoriaAtual) {
+	public void setIdCategoriaAtual(Long idCategoriaAtual) {
 		this.idCategoriaAtual = idCategoriaAtual;
+	}
+
+	public List<Categoria> getCategorias() {
+		return categorias;
+	}
+
+	public void setCategorias(List<Categoria> categorias) {
+		this.categorias = categorias;
+	}
+	
+		
+	public Integer getIdFuncaoAtual() {
+		return idFuncaoAtual;
+	}
+
+	public void setIdFuncaoAtual(Integer idFuncaoAtual) {
+		this.idFuncaoAtual = idFuncaoAtual;
+	}
+	
+	
+	public ArtefatoParticipante getArtefatoParticipante() {
+		return artefatoParticipante;
+	}
+
+	public void setArtefatoParticipante(ArtefatoParticipante artefatoParticipante) {
+		this.artefatoParticipante = artefatoParticipante;
 	}
 
 	@PostConstruct
@@ -186,6 +223,7 @@ public class ArtefatoBean {
 		setParticipantes(participanteService.listAll());
 		setArtefatos(artefatoService.listAll());
 		setProjetos(projetoService.listAll());
+		setCategorias(categoriaService.listAll());
 		atualizarArtefatos();
 		
 		
@@ -209,9 +247,11 @@ public class ArtefatoBean {
 		if(getArtefato().getId()==null){ 
 			Participante partAtual = participanteService.obtemPorId(idParticipanteAtual);
 			Projeto projAtual = projetoService.obtemPorId(idProjetoAtual);
+			Categoria catAtual = categoriaService.obtemPorId(idCategoriaAtual);
 			artefato.setProjeto(projAtual);
-			artefato.setCategoria(Categoria.values()[idCategoriaAtual]);
-			artefato.setProdutor(partAtual);
+			artefato.setCategoria(catAtual);
+			//artefato.setCategoria(Categoria.values()[idCategoriaAtual]);
+			//artefato.setProdutor(partAtual);
 			artefato.setSituacao(Situacao.values()[idSituacaoAtual]);
 			artefatoService.create(artefato);
 			msg="Artefato cadastrado com sucesso";
@@ -232,6 +272,7 @@ public class ArtefatoBean {
 	
 }
 	
+	/*
 	public void adicionarProdutor() {		
 		
 		if(idParticipanteAtual==0){
@@ -246,6 +287,29 @@ public class ArtefatoBean {
 					
 			}
 				
+	*/
+	
+	
+	
+	
+	public void adicionarParticipanteEfuncao() {		
+		
+		if(idParticipanteAtual==0){
+			FacesContext.getCurrentInstance().addMessage(
+					"erro", new FacesMessage("Selecione um Participante"));
+		}else{
+			Participante partAtual = participanteService.obtemPorId(idParticipanteAtual);
+			ArtefatoParticipante artefatoPart = new ArtefatoParticipante();
+			artefatoPart.setParticipante(partAtual);
+			artefatoPart.setFuncao(Funcao.values()[idFuncaoAtual]);
+				if(!getArtefato().getArtefato_participantes().contains(artefatoPart)) {
+					getArtefato().getArtefato_participantes().add(artefatoPart); 
+				}else {
+					FacesContext.getCurrentInstance().addMessage(
+							"erro", new FacesMessage("Participante já selecionado"));
+			}
+				}
+		}	
 	
 	public void excluirArtefato(Artefato artefato) {
 		String msg="Artefato exluído com sucesso";

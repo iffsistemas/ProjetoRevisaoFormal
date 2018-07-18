@@ -58,18 +58,22 @@
 					<p:submenu label="Cadastrar" icon="ui-icon-plus">
 						<p:menuitem value="Participante" url="participante.xhtml" icon="ui-icon-person"/>
 						<p:menuitem value="Projeto" url="projeto.xhtml" icon="ui-icon-folder-open"/>
-						<p:menuitem value="Artefato" url="artefato.xhtml" icon="ui-icon-pencil"/>
+						<p:menuitem value="Categoria" url="categoria.xhtml" icon="ui-icon-pencil"/>
 						
 				</p:submenu>
-
-				<p:menuitem value="Artefafos" url="listaArtefatos.xhtml" icon="ui-icon-search" />
-
+				
+				
+			<p:submenu label="RTFs" >
+				<p:menuitem value="Nova RTF" url="artefato.xhtml" icon="ui-icon-pencil"/>
+					<p:submenu label="Consultar" icon="ui-icon-search">
+						<p:menuitem value="Categoria/Projeto" url="listaArtefatos.xhtml" icon="ui-icon-search"/>
+						<p:menuitem value="Situação" url="listaArtefatosSituacao.xhtml" icon="ui-icon-search" />
+					</p:submenu>
+			</p:submenu>
 					
 				<p:menuitem value="Sair"  url="index.xhtml" icon="ui-icon-close"/>
 	
-				
-
-			</p:menubar>
+				</p:menubar>
 			</h:form>
 		</div>
 

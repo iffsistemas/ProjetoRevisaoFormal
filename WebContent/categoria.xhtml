@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition template="/templates/templates.xhtml"> 
+
+
+<ui:define name="titulo">Cadastrar Categorias</ui:define>
+
+
+<ui:define name="conteudo">
+
+
+
+		<h:form id="formCategoria">
+			
+			<p:panelGrid columns="2">
+				<p:outputLabel value="Nome: " for="nome"/>
+				<p:inputText value="#{categoriaBean.categoria.nome}" id="nome" required="true" requiredMessage="Nome Obrigatório!" />
+				
+								
+				<p:commandButton action="#{categoriaBean.salvarCategoria()}" value="Salvar" 
+				update=":mensagem :formCategoria, formLista:tableCategorias" process="@form" />			
+			</p:panelGrid>	
+		</h:form>	
+		<br/>
+		
+		<br></br><br></br>
+		<h:form id="formLista">
+			<p:dataTable  style="max-width: 500px; min-width: 500px" value="#{categoriaBean.categorias}" 
+			var="cat" paginator="true" id="tableCategorias"
+			 emptyMessage="Nenhuma categoria cadastrada!" rows="10">
+				<p:column headerText="Nome" sortBy="#{cat.nome}">
+					<h:outputText value="#{cat.nome}" />
+				</p:column>
+				
+				<p:column style="width:55px" headerText="Editar">
+					<p:commandButton action="#{categoriaBean.editarCategoria(cat)}" icon="ui-icon-pencil" 
+					update=":mensagem :formCategoria" process="@form" />
+				</p:column>	
+				
+											
+				<p:column style="width:55px"  headerText="Excluir">
+			<p:commandButton icon="ui-icon-trash" action="#{categoriaBean.removerCategoria(cat)}"
+			 update=":mensagem :formLista :formLista:tableCategorias"  process="@form">
+			 <p:confirm header="Confirmação" message="Deseja excluir Categoria?" icon="ui-icon-alert" />
+			</p:commandButton>
+			
+			<p:confirmDialog global="true" showEffect="size" hideEffect="size">
+        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>	
+			
+			</p:column>	
+				
+			
+				
+			</p:dataTable>
+		</h:form>
+		
+
+
+
+
+  
+</ui:define>	 
+</ui:composition>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>
