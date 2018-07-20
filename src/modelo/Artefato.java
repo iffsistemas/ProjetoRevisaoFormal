@@ -27,8 +27,8 @@ public class Artefato extends GenericId{
 	private List<AtaReuniao> ataReuniao;
 	
 	
-	@OneToMany(cascade=CascadeType.ALL)
-	private List<ArtefatoParticipante> artefato_participantes = new ArrayList<ArtefatoParticipante>();
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="artefato")
+	private List<ArtefatoParticipante> artefatoParticipantes = new ArrayList<ArtefatoParticipante>();
 	
 	
 	@ManyToOne(optional=false)
@@ -90,14 +90,13 @@ public class Artefato extends GenericId{
 		this.ataReuniao = ataReuniao;
 	}
 	
-	
-	public List<ArtefatoParticipante> getArtefato_participantes() {
-		return artefato_participantes;
+	public List<ArtefatoParticipante> getArtefatoParticipantes() {
+		return artefatoParticipantes;
 	}
 
 
-	public void setArtefato_participantes(List<ArtefatoParticipante> artefato_participantes) {
-		this.artefato_participantes = artefato_participantes;
+	public void setArtefatoParticipantes(List<ArtefatoParticipante> artefatoParticipantes) {
+		this.artefatoParticipantes = artefatoParticipantes;
 	}
 
 
@@ -109,9 +108,6 @@ public class Artefato extends GenericId{
 	public void setProjeto(Projeto projeto) {
 		this.projeto = projeto;
 	}
-
-
-
 
 
 

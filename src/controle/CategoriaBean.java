@@ -12,10 +12,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import modelo.Categoria;
-import modelo.Participante;
-import modelo.Projeto;
 import service.CategoriaService;
-import service.ParticipanteService;
 
  
 @ViewScoped

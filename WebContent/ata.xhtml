@@ -38,7 +38,7 @@
 	<h:panelGrid columns="2">
 	
 		<p:outputLabel value="RTF:"/>
- 	 <p:outputLabel value="#{ataReuniaoBean.tituloArtefato}"/>
+ 	 <p:outputLabel value="#{ataReuniaoBean.ata.artefato.titulo}"/>
      	
      	<p:outputLabel value="Título da Ata:" for="titulo"/>
      	<p:inputTextarea id="titulo" value="#{ataReuniaoBean.ata.titulo}"  rows="1" cols="30" autoResize="false" />
@@ -59,7 +59,7 @@
      	<p:commandButton value="Adicionar Participante" icon="ui-icon-plus" oncomplete="PF('AddParticipante').show();"/>
      		   
      	
-     	<p:dataTable style="max-width: 600px; min-width: 600px" value="#{ataReuniaoBean.ata.participantes}" var="part"
+     	<p:dataTable style="max-width: 600px; min-width: 600px" value="#{ataReuniaoBean.ata.reuniaoParticipantes}" var="part"
 			paginator="true" id="tableParticipante"  emptyMessage="Nenhum Participante Cadastrado!" rows="7" >
 			<p:column>
 				<f:facet name="header">Nome</f:facet>

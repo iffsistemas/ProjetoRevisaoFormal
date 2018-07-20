@@ -35,8 +35,8 @@
 			 itemLabel="#{proj.nome}" itemValue="#{proj.id}" />
 	</p:selectOneMenu>	
 	
-	<p:commandButton value="Buscar" icon="ui-icon-search" action="#{#}" 
-	update=":formListaArtefatos:tableArtefatos :formTodasAtas:tableTodasAtas"/>			
+	<p:commandButton value="Buscar" icon="ui-icon-search" action="#{artefatoBean.filtrarArtefatos()}" 
+	update=":formListaArtefatos:tableArtefatos"/>			
 
 	</h:panelGrid>	
 	
@@ -61,7 +61,7 @@
 			<p:outputLabel value="#{art.descricao}" />
 		</p:column>
 		<p:column style="width:85px">
-			<f:facet name="header">Produtor</f:facet>
+			<f:facet name="header">Participantes</f:facet>
 			<p:outputLabel value="#{#}"/>
 		</p:column>		
 		<p:column style="width:85px">

@@ -17,7 +17,8 @@ public class ArtefatoParticipante extends GenericId {
 	@ManyToOne
 	private Participante participante;
 	
-	
+	@ManyToOne
+	private Artefato artefato;
 
 	public Funcao getFuncao() {
 		return funcao;
@@ -34,8 +35,14 @@ public class ArtefatoParticipante extends GenericId {
 	public void setParticipante(Participante participante) {
 		this.participante = participante;
 	}
-
 	
+	public Artefato getArtefato() {
+		return artefato;
+	}
+
+	public void setArtefato(Artefato artefato) {
+		this.artefato = artefato;
+	}
 
 	@Override
 	public int hashCode() {
@@ -61,6 +68,12 @@ public class ArtefatoParticipante extends GenericId {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "ArtefatoParticipante [funcao=" + funcao + ", participante=" + participante + "]";
+	}
+	
 	
 	
 }

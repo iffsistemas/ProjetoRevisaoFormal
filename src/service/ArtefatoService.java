@@ -8,9 +8,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import modelo.Artefato;
-import modelo.AtaReuniao;
-import modelo.Categoria;
-import modelo.Projeto;
 
 @Stateless
 public class ArtefatoService extends GenericService<Artefato> {
@@ -20,40 +17,48 @@ public class ArtefatoService extends GenericService<Artefato> {
 	} 
 
 	
-		
-	public List<AtaReuniao> obtemAtaPorArtefato(Artefato artefato) {
-		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-		CriteriaQuery<AtaReuniao> cquery = cb.createQuery(AtaReuniao.class);
-		Root<AtaReuniao> root = cquery.from(AtaReuniao.class);
-		
-			
-		cquery.select(root).where(cb.equal(root.get("artefato"), artefato));
-		
-		//cquery.orderBy(cb.desc(Artefato.<Long>get("id")));
-		
-		//cquery.orderBy(cb.desc(cquery.get("id")));
-		
-		List<AtaReuniao> atas = getEntityManager().createQuery(cquery).getResultList();
-		
-		return atas;
-				
-	}
 	
-	
-	public List<Artefato> obtemArtefatosPorBuscas(Categoria categoria, Projeto projeto) {
+	public List<Artefato> obtemArtefatosPorBuscas(Long categoria, Long projeto) {
 		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
 		CriteriaQuery<Artefato> cquery = cb.createQuery(Artefato.class);
 		Root<Artefato> root = cquery.from(Artefato.class);
-		
 			
-		//cquery.multiselect(root).where(cb.equal(root.get("categoria"), categoria, root.get("projeto"), projeto);
-		
-		
+		cquery.where(cb.and(cb.equal(root.get("categoria").get("id"), categoria), cb.equal(root.get("projeto").get("id"), projeto)));
 		
 		List<Artefato> artefatos = getEntityManager().createQuery(cquery).getResultList();
 		
 		return artefatos;
 				
+	}
+	
+	public List<Artefato> listarTodosArtefatosComParticipantes() {
+		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+		CriteriaQuery<Artefato> cquery = cb.createQuery(Artefato.class);
+		
+		List<Artefato> artefatos = getEntityManager().createQuery(cquery).getResultList();
+		
+		for(Artefato art: artefatos) {
+			art.getArtefatoParticipantes().size();
+		}
+		
+		return artefatos;
+		
+	}
+	
+	
+	public Artefato obtemParticipantesDeUmArtefato(Artefato artefato) {
+		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+		CriteriaQuery<Artefato> cquery = cb.createQuery(Artefato.class);
+		Root<Artefato> root = cquery.from(Artefato.class);
+		
+		
+		cquery.select(root).where(cb.equal(root, artefato));
+		
+		Artefato artefatoComParticipantes = getEntityManager().createQuery(cquery).getSingleResult();
+		
+		artefatoComParticipantes.getArtefatoParticipantes().size();
+		
+		return artefatoComParticipantes;
 	}
 	
 	

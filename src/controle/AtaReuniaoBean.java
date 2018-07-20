@@ -16,11 +16,13 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import modelo.Artefato;
+import modelo.Artefato.Situacao;
+import modelo.ArtefatoParticipante;
 import modelo.AtaReuniao;
 import modelo.Participante;
 import modelo.ReuniaoParticipante;
-import modelo.Artefato.Situacao;
 import modelo.ReuniaoParticipante.Funcao;
+import service.ArtefatoService;
 import service.AtaReuniaoService;
 import service.ParticipanteService;
 import service.ReuniaoParticipanteService;
@@ -37,12 +39,13 @@ public class AtaReuniaoBean {
 	ParticipanteService participanteService;
 	@EJB
 	ReuniaoParticipanteService reuniaoparticipanteService;
+	@EJB
+	ArtefatoService artefatoService;
 	
 	private Date dataCronometro = new Date();
 	
 	private AtaReuniao ata = new AtaReuniao();
 	private AtaReuniao ataSelecionada = new AtaReuniao();
-	private Artefato artefato = new Artefato();
 	private ReuniaoParticipante reuniaoParticipante = new ReuniaoParticipante();
 	
 	Integer idSituacaoAtual = 0;
@@ -54,12 +57,6 @@ public class AtaReuniaoBean {
 	
 	List<Participante> participantes = new ArrayList<Participante>();
 	List<Participante> assinaturas = new ArrayList<Participante>();
-		
-	
-	
-	
-	
-	private String tituloArtefato;
 	
 	
 	public AtaReuniao getAta() {
@@ -109,17 +106,6 @@ public class AtaReuniaoBean {
 		return lista;
 	}	
 	
-	
-	
-	public String getTituloArtefato() {
-		return tituloArtefato;
-	}
-
-	public void setTituloArtefato(String tituloArtefato) {
-		this.tituloArtefato = tituloArtefato;
-	}
-	
-	
 	public ReuniaoParticipante getReuniaoParticipante() {
 		return reuniaoParticipante;
 	}
@@ -127,9 +113,6 @@ public class AtaReuniaoBean {
 	public void setReuniaoParticipante(ReuniaoParticipante reuniaoParticipante) {
 		this.reuniaoParticipante = reuniaoParticipante;
 	}
-	
-	
-	
 
 	public AtaReuniao getAtaSelecionada() {
 		return ataSelecionada;
@@ -137,15 +120,6 @@ public class AtaReuniaoBean {
 
 	public void setAtaSelecionada(AtaReuniao ataSelecionada) {
 		this.ataSelecionada = ataSelecionada;
-	}
-	
-	
-	public Artefato getArtefato() {
-		return artefato;
-	}
-
-	public void setArtefato(Artefato artefato) {
-		this.artefato = artefato;
 	}
 
 	public Integer getIdSituacaoAtual() {
@@ -198,13 +172,11 @@ public class AtaReuniaoBean {
 		
 		Artefato artefatoEnviado = (Artefato) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("artefatoEnviado");
 		getAta().setArtefato(artefatoEnviado);
-		setTituloArtefato(artefatoEnviado.getTitulo()); 
 		
 		getAta().setDataHoraInicio(new Date());
+		carregarParticipantesAtefato();
 				
 	}
-	
-	
 	
 	
 	
@@ -241,8 +213,9 @@ public class AtaReuniaoBean {
 			ReuniaoParticipante reuniaoPart = new ReuniaoParticipante();
 		 	reuniaoPart.setParticipante(partAtual);
 		 	reuniaoPart.setFuncao(Funcao.values()[idFuncaoAtual]);
-				if(!getAta().getParticipantes().contains(reuniaoPart)) {
-				 	getAta().getParticipantes().add(reuniaoPart); 
+		 	reuniaoPart.setAtaReuniao(getAta());
+				if(!getAta().getReuniaoParticipantes().contains(reuniaoPart)) {
+				 	getAta().getReuniaoParticipantes().add(reuniaoPart); 
 				}else {
 					FacesContext.getCurrentInstance().addMessage(
 							"erro", new FacesMessage("Participante já selecionado"));
@@ -250,18 +223,22 @@ public class AtaReuniaoBean {
 				}
 		}	
 
+	public void carregarParticipantesAtefato() {
+		
+		Artefato artefatoParticipantes = artefatoService.obtemParticipantesDeUmArtefato(getAta().getArtefato());
+		for(ArtefatoParticipante ap: artefatoParticipantes.getArtefatoParticipantes()) {
+			ReuniaoParticipante participante =  new ReuniaoParticipante();
+			participante.setParticipante(ap.getParticipante());
+			participante.setFuncao(ap.getFuncao());
+			participante.setAtaReuniao(getAta());
+			getAta().getReuniaoParticipantes().add(participante);
+		}
+	}
 
 	
-	public void removerParticipanteEfuncao(Participante partAtual) {
+	public void removerParticipanteEfuncao(ReuniaoParticipante partAtual) {
 		
-		
-		//getParticipantes().remove(partAtual);
-		
-		
-		
-		 
-		
-		
+		getAta().getReuniaoParticipantes().remove(partAtual);
 		FacesContext.getCurrentInstance().addMessage("menssagem", new FacesMessage("Parabéns!", "Participante Excluído com Sucesso"));
 		
 		

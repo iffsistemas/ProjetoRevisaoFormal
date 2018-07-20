@@ -31,8 +31,8 @@ public class AtaReuniao extends GenericId {
 	@ManyToOne(cascade=CascadeType.ALL)
 	private Artefato artefato;
 	
-	@OneToMany(cascade=CascadeType.ALL)
-	private List<ReuniaoParticipante> participantes = new ArrayList<ReuniaoParticipante>();
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="ataReuniao")
+	private List<ReuniaoParticipante> reuniaoParticipantes = new ArrayList<ReuniaoParticipante>();
 	
 	
 	private Date duracaoDaReuniao;
@@ -94,12 +94,14 @@ public class AtaReuniao extends GenericId {
 		this.artefato = artefato;
 	}
 
-	public List<ReuniaoParticipante> getParticipantes() {
-		return participantes;
+	
+
+	public List<ReuniaoParticipante> getReuniaoParticipantes() {
+		return reuniaoParticipantes;
 	}
 
-	public void setParticipantes(List<ReuniaoParticipante> participantes) {
-		this.participantes = participantes;
+	public void setReuniaoParticipantes(List<ReuniaoParticipante> reuniaoParticipantes) {
+		this.reuniaoParticipantes = reuniaoParticipantes;
 	}
 
 	public Date getDuracaoDaReuniao() {

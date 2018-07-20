@@ -16,6 +16,9 @@ public class ReuniaoParticipante extends GenericId {
 	@ManyToOne
 	private Participante participante;
 	
+	@ManyToOne
+	private	AtaReuniao ataReuniao;
+	
 	public Boolean getAssinatura() {
 		return assinatura;
 	}
@@ -60,6 +63,14 @@ public class ReuniaoParticipante extends GenericId {
 		public int getOrdinal() {
 			return this.ordinal();
 		}
+	}
+
+	public AtaReuniao getAtaReuniao() {
+		return ataReuniao;
+	}
+
+	public void setAtaReuniao(AtaReuniao ataReuniao) {
+		this.ataReuniao = ataReuniao;
 	}
 
 	@Override

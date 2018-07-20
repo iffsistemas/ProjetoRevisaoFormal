@@ -9,7 +9,7 @@
 <ui:composition template="/templates/templates.xhtml"> 
 
 
-<ui:define name="titulo">Nova Revisão de Artefato</ui:define>
+<ui:define name="titulo">Nova RTF</ui:define>
 
 
 <ui:define name="conteudo">
@@ -57,7 +57,7 @@
      	<p:commandButton value="Adicionar" icon="ui-icon-plus" oncomplete="PF('AddParticipante').show();"/>
      		   
      	
-     	<p:dataTable style="max-width: 600px; min-width: 600px" value="#{artefatoBean.artefato.artefato_participantes}" var="part"
+     	<p:dataTable style="max-width: 600px; min-width: 600px" value="#{artefatoBean.artefato.artefatoParticipantes}" var="part"
 			paginator="true" id="tableParticipante"  emptyMessage="Nenhum Participante Cadastrado!" rows="7" >
 			<p:column>
 				<f:facet name="header">Nome</f:facet>
@@ -79,7 +79,8 @@
 		
 		<br></br>
 		
-		<p:fileUpload label="Anexos" value="#{#}" mode="simple" skinSimple="true"/>
+		<p:fileUpload label="Anexos" mode="advanced"
+						fileUploadListener="#{artefatoBean.handleFileUpload()}" multiple="true" sizeLimit="10000000"/>
 		
 		<br></br><br></br>
 		

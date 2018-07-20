@@ -12,15 +12,16 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.event.FileUploadEvent;
+
 import modelo.Artefato;
 import modelo.Artefato.Situacao;
-import modelo.ReuniaoParticipante.Funcao;
 import modelo.ArtefatoParticipante;
 import modelo.AtaReuniao;
 import modelo.Categoria;
 import modelo.Participante;
 import modelo.Projeto;
-import modelo.ReuniaoParticipante;
+import modelo.ReuniaoParticipante.Funcao;
 import service.ArtefatoService;
 import service.CategoriaService;
 import service.ParticipanteService;
@@ -221,10 +222,9 @@ public class ArtefatoBean {
 	@PostConstruct
 	public void init(){
 		setParticipantes(participanteService.listAll());
-		setArtefatos(artefatoService.listAll());
 		setProjetos(projetoService.listAll());
 		setCategorias(categoriaService.listAll());
-		atualizarArtefatos();
+		//atualizarArtefatos();
 		
 		
 	
@@ -235,17 +235,12 @@ public class ArtefatoBean {
 		getArtefatos().clear();
 		getArtefatos().addAll(artefatoService.listAll());
 	}
-	
-	
-	
-	
-	
-	
+		
 	public void salvarArtefato() throws IOException {
 		String msg;
 	
 		if(getArtefato().getId()==null){ 
-			Participante partAtual = participanteService.obtemPorId(idParticipanteAtual);
+			//Participante partAtual = participanteService.obtemPorId(idParticipanteAtual);
 			Projeto projAtual = projetoService.obtemPorId(idProjetoAtual);
 			Categoria catAtual = categoriaService.obtemPorId(idCategoriaAtual);
 			artefato.setProjeto(projAtual);
@@ -302,8 +297,9 @@ public class ArtefatoBean {
 			ArtefatoParticipante artefatoPart = new ArtefatoParticipante();
 			artefatoPart.setParticipante(partAtual);
 			artefatoPart.setFuncao(Funcao.values()[idFuncaoAtual]);
-				if(!getArtefato().getArtefato_participantes().contains(artefatoPart)) {
-					getArtefato().getArtefato_participantes().add(artefatoPart); 
+				if(!getArtefato().getArtefatoParticipantes().contains(artefatoPart)) {
+					artefatoPart.setArtefato(getArtefato());
+					getArtefato().getArtefatoParticipantes().add(artefatoPart); 
 				}else {
 					FacesContext.getCurrentInstance().addMessage(
 							"erro", new FacesMessage("Participante já selecionado"));
@@ -336,7 +332,20 @@ public class ArtefatoBean {
 	public void carregarAtas() {
 				
 				atas.clear();
-				atas.addAll(artefatoService.obtemAtaPorArtefato(artefatoSelecionado));
+				//atas.addAll(ataService.obtemAtaPorArtefato(artefatoSelecionado));
+	}
+	
+	
+	public void filtrarArtefatos() {
+		getArtefatos().clear();
+		getArtefatos().addAll(artefatoService.obtemArtefatosPorBuscas(idCategoriaAtual,idProjetoAtual));
+	}
+	
+	
+	public void handleFileUpload(FileUploadEvent event) {
+		System.out.println("teste");
+		System.out.println(event.getFile().getFileName());
+		
 	}
 	
 
