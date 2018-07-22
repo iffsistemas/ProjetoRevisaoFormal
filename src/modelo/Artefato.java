@@ -10,6 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 @Entity
 public class Artefato extends GenericId{
@@ -36,8 +37,12 @@ public class Artefato extends GenericId{
 	
 	//@OneToMany
 	//private List<Anexo> anexos;
-
 	
+	@OneToOne
+	private Anexo anexo;
+	
+	@Transient
+	private String caminho;
 	
 	
 	public String getDescricao() {
@@ -108,6 +113,29 @@ public class Artefato extends GenericId{
 	public void setProjeto(Projeto projeto) {
 		this.projeto = projeto;
 	}
+	
+	
+	public Anexo getAnexo() {
+		return anexo;
+	}
+
+
+	public void setAnexo(Anexo anexo) {
+		this.anexo = anexo;
+	}
+
+
+	public String getCaminho() {
+		return caminho;
+	}
+
+
+	public void setCaminho(String caminho) {
+		this.caminho = caminho;
+	}
+
+
+
 
 
 
@@ -131,6 +159,9 @@ public class Artefato extends GenericId{
 			return this.ordinal();
 		}
 	}
+	
+	
+	
 	
 	/*
 	

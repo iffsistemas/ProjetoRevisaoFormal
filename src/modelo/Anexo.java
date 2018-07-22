@@ -9,6 +9,8 @@ public class Anexo extends GenericId{
 	private String descricao;
 	@Lob
 	private String caminho;
+	
+	
 	public String getDescricao() {
 		return descricao;
 	}

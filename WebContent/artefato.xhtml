@@ -14,7 +14,7 @@
 
 <ui:define name="conteudo">
 
-<h:form id="formArtefato">		
+<h:form id="formArtefato" enctype="multipart/form-data" >		
 	<h:panelGrid columns="2">
      	
      	<p:outputLabel value="Título da RTF" for="titulo"/>
@@ -79,8 +79,18 @@
 		
 		<br></br>
 		
-		<p:fileUpload label="Anexos" mode="advanced"
-						fileUploadListener="#{artefatoBean.handleFileUpload()}" multiple="true" sizeLimit="10000000"/>
+		<p:outputLabel value="Arquivo: " for="fileUpload" />
+ 	   <p:fileUpload id="fileUpload" auto="true" multiple="false" 
+ 	   fileUploadListener="#{artefatoBean.uploadDeArquivo()}" mode="advanced" 
+ 	   update=":mensagem :formArtefato:arquivoUpload" process="@form"/>
+ 	   
+ 	   <p:outputLabel value="Arquivo" for="arquivoUpload"/>
+ 	 <p:graphicImage id="arquivoUpload" value="#{imagemBean.foto}"  width="200" height="200">
+ 	 <f:param name="caminho" value="#{artefatoBean.artefato.caminho}"/>
+ 	 </p:graphicImage>
+ 	   
+ 	   
+ 	     
 		
 		<br></br><br></br>
 		

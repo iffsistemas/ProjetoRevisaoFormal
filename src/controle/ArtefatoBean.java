@@ -1,6 +1,10 @@
 package controle;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,6 +17,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 
 import modelo.Artefato;
 import modelo.Artefato.Situacao;
@@ -23,6 +28,7 @@ import modelo.Participante;
 import modelo.Projeto;
 import modelo.ReuniaoParticipante.Funcao;
 import service.ArtefatoService;
+import service.AtaReuniaoService;
 import service.CategoriaService;
 import service.ParticipanteService;
 import service.ProjetoService;
@@ -41,6 +47,8 @@ public class ArtefatoBean {
 	ProjetoService projetoService;
 	@EJB
 	CategoriaService categoriaService;
+	@EJB
+	AtaReuniaoService ataService;
 	
 	
 	private Artefato artefato = new Artefato();
@@ -60,6 +68,7 @@ public class ArtefatoBean {
 	Long idCategoriaAtual= 0L;
 	Integer idSituacaoAtual = 0;
 	Integer idFuncaoAtual = 0;
+	String nomeArquivo="";
 	
 	
 
@@ -248,6 +257,11 @@ public class ArtefatoBean {
 			//artefato.setCategoria(Categoria.values()[idCategoriaAtual]);
 			//artefato.setProdutor(partAtual);
 			artefato.setSituacao(Situacao.values()[idSituacaoAtual]);
+			
+			Path origem = Paths.get(artefato.getCaminho());
+			Path destino = Paths.get("C:/ImagensRevisApp/" + nomeArquivo);
+			Files.copy(origem, destino, StandardCopyOption.REPLACE_EXISTING);
+			
 			artefatoService.create(artefato);
 			msg="Artefato cadastrado com sucesso";
 			setArtefato(new Artefato());
@@ -311,6 +325,11 @@ public class ArtefatoBean {
 		String msg="Artefato exluído com sucesso";
  		
 		try {
+				
+			/*Excluir artefato e Arquivo
+			Path excluirArquivo = Paths.get("C:/ImagensRevisApp/" + nomeArquivo);
+			Files.deleteIfExists(excluirArquivo);
+			 */
 				artefatoService.remove(artefato);
 				atualizarArtefatos();
 				FacesContext.getCurrentInstance().addMessage("menssagem", new FacesMessage("Parabéns!", msg));
@@ -332,7 +351,7 @@ public class ArtefatoBean {
 	public void carregarAtas() {
 				
 				atas.clear();
-				//atas.addAll(ataService.obtemAtaPorArtefato(artefatoSelecionado));
+				atas.addAll(ataService.obtemAtaPorArtefato(artefatoSelecionado));
 	}
 	
 	
@@ -342,9 +361,31 @@ public class ArtefatoBean {
 	}
 	
 	
-	public void handleFileUpload(FileUploadEvent event) {
+	public void uploadDeArquivo(FileUploadEvent evento) {
+		
+		try {
+		UploadedFile arquivoUpload = evento.getFile();
+		Path arquivoTemp = Files.createTempFile(null, null); 
+		Files.copy(arquivoUpload.getInputstream(), arquivoTemp, StandardCopyOption.REPLACE_EXISTING);
+		artefato.setCaminho(arquivoTemp.toString());
+		
+		nomeArquivo = evento.getFile().getFileName();
+		FacesContext.getCurrentInstance().addMessage("menssagem", new FacesMessage("Parabems!", nomeArquivo + " Anexado com  Sucesso"));
+		
+		
+		}catch (IOException erro) {
+	
+	FacesContext.getCurrentInstance().addMessage("menssagem", new FacesMessage("ERRO!", "Ocorreu um erro Inesperado"));
+			erro.printStackTrace();
+		}
+		
+		
+	}
+	
+	
+	public void testeUpload() {
 		System.out.println("teste");
-		System.out.println(event.getFile().getFileName());
+		 
 		
 	}
 	
