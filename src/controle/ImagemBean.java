@@ -21,6 +21,9 @@ public class ImagemBean {
 	
 	private String caminho;
 	private StreamedContent foto;
+	
+	
+	
 	public String getCaminho() {
 		return caminho;
 	}

@@ -18,7 +18,7 @@
 	<h:panelGrid columns="2">
      	
      	<p:outputLabel value="Título da RTF" for="titulo"/>
-     	<p:inputTextarea id="titulo" value="#{artefatoBean.artefato.titulo}"  rows="1" cols="60" autoResize="false" required="true" requiredMessage="Título Obrigatório!" />
+     	<p:inputTextarea id="titulo" value="#{artefatoBean.artefato.titulo}"  rows="2" cols="60" autoResize="false" required="true" requiredMessage="Título Obrigatório!" />
      	
      	<p:outputLabel value="Descrição:" for="descricao"/>
      	<p:inputTextarea id="descricao" value="#{artefatoBean.artefato.descricao}"  rows="6" cols="60" autoResize="false" />
@@ -79,21 +79,34 @@
 		
 		<br></br>
 		
+		
+		
+		
+		<p:fieldset legend="Anexar Arquivo...">
+		
+				
 		<p:outputLabel value="Arquivo: " for="fileUpload" />
  	   <p:fileUpload id="fileUpload" auto="true" multiple="false" 
  	   fileUploadListener="#{artefatoBean.uploadDeArquivo()}" mode="advanced" 
  	   update=":mensagem :formArtefato:arquivoUpload" process="@form"/>
  	   
- 	   <p:outputLabel value="Arquivo" for="arquivoUpload"/>
- 	 <p:graphicImage id="arquivoUpload" value="#{imagemBean.foto}"  width="200" height="200">
+ 	   <p:graphicImage id="arquivoUpload" value="#{imagemBean.foto}"  width="100" height="100">
  	 <f:param name="caminho" value="#{artefatoBean.artefato.caminho}"/>
  	 </p:graphicImage>
- 	   
- 	   
+ 	 
+ 	 <p:panelGrid columns="2"> 
+ 		<p:outputLabel value="Descrição: " for="descricaoAnexo" />
+		<p:inputText id="descricaoAnexo" value="#{artefatoBean.anexo.descricao}"  />
+	</p:panelGrid>
+ 	  	   
+ 	 </p:fieldset>
  	     
 		
-		<br></br><br></br>
 		
+		
+		
+		
+		<br></br><br></br>
 		 <p:commandButton action="#{artefatoBean.salvarArtefato()}" value="Salvar" 
 				update=":mensagem :formArtefato"  process="@form" />		
 	

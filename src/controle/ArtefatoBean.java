@@ -19,6 +19,7 @@ import javax.faces.context.FacesContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
+import modelo.Anexo;
 import modelo.Artefato;
 import modelo.Artefato.Situacao;
 import modelo.ArtefatoParticipante;
@@ -55,6 +56,7 @@ public class ArtefatoBean {
 	private Artefato artefatoSelecionado = new Artefato();
 	private AtaReuniao ataReuniaoSelecionada = new AtaReuniao();
 	private ArtefatoParticipante artefatoParticipante = new ArtefatoParticipante();
+	private Anexo anexo = new Anexo();
 	
 	private List<Participante> participantes = new ArrayList<Participante>();
 	private List<Projeto> projetos = new ArrayList<Projeto>();
@@ -227,6 +229,23 @@ public class ArtefatoBean {
 	public void setArtefatoParticipante(ArtefatoParticipante artefatoParticipante) {
 		this.artefatoParticipante = artefatoParticipante;
 	}
+	
+	public String getNomeArquivo() {
+		return nomeArquivo;
+	}
+
+	public void setNomeArquivo(String nomeArquivo) {
+		this.nomeArquivo = nomeArquivo;
+	}
+	
+	
+	public Anexo getAnexo() {
+		return anexo;
+	}
+
+	public void setAnexo(Anexo anexo) {
+		this.anexo = anexo;
+	}
 
 	@PostConstruct
 	public void init(){
@@ -261,6 +280,11 @@ public class ArtefatoBean {
 			Path origem = Paths.get(artefato.getCaminho());
 			Path destino = Paths.get("C:/ImagensRevisApp/" + nomeArquivo);
 			Files.copy(origem, destino, StandardCopyOption.REPLACE_EXISTING);
+		
+			//getArtefato().getAnexo().setCaminho(nomeArquivo);
+			
+			anexo.setCaminho("C:/ImagensRevisApp/" + nomeArquivo);
+			artefato.setAnexo(anexo);		
 			
 			artefatoService.create(artefato);
 			msg="Artefato cadastrado com sucesso";
@@ -368,6 +392,7 @@ public class ArtefatoBean {
 		Path arquivoTemp = Files.createTempFile(null, null); 
 		Files.copy(arquivoUpload.getInputstream(), arquivoTemp, StandardCopyOption.REPLACE_EXISTING);
 		artefato.setCaminho(arquivoTemp.toString());
+		
 		
 		nomeArquivo = evento.getFile().getFileName();
 		FacesContext.getCurrentInstance().addMessage("menssagem", new FacesMessage("Parabems!", nomeArquivo + " Anexado com  Sucesso"));

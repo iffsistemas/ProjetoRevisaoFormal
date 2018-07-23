@@ -78,11 +78,14 @@
 		
 		</p:fieldset>
 		
- 	
+ 		
+ 		
  					
 		
 		<h:panelGrid columns="2">
 		
+		<p:outputLabel value="Anexo:"/>
+		<p:commandButton value="Ver Anexo" icon="ui-icon-plus" oncomplete="PF('verAnexo').show();"/>
 				
 		<p:outputLabel value="Relatório:" for="relatorio"/>
      	<p:inputTextarea id="relatorio" value="#{ataReuniaoBean.ata.registrosProblemas}"  rows="20" cols="97" autoResize="false" />
@@ -182,6 +185,15 @@
  </h:form> 	
 
 
+<h:form id="formVerAnexo">
+ 	<p:dialog  header="Anexo" widgetVar="verAnexo" resizable="false" 
+ 		draggable="false" modal="true" showEffect="slide" hideEffect="slide"  >
+ 		
+ 		<p:graphicImage id="arquivoUpload" value="#{imagemBean.foto}"  width="800" height="400">
+ 		 <f:param name="caminho" value="#{ataReuniaoBean.ata.artefato.anexo.caminho}"/>
+ 		</p:graphicImage>
+	</p:dialog>
+</h:form> 		
 
 
   

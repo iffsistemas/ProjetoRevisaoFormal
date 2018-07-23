@@ -38,7 +38,7 @@ public class Artefato extends GenericId{
 	//@OneToMany
 	//private List<Anexo> anexos;
 	
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	private Anexo anexo;
 	
 	@Transient
