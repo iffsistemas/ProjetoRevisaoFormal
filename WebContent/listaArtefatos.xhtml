@@ -61,10 +61,6 @@
 			<p:outputLabel value="#{art.descricao}" />
 		</p:column>
 		<p:column style="width:85px">
-			<f:facet name="header">Participantes</f:facet>
-			<p:outputLabel value="#{#}"/>
-		</p:column>		
-		<p:column style="width:85px">
 			<f:facet name="header">Projeto</f:facet>
 			<p:outputLabel value="#{art.projeto.nome}"/>
 		</p:column>	
@@ -78,14 +74,16 @@
 			<f:facet name="header">Situacão</f:facet>
 			<p:outputLabel value="#{art.situacao.descricao}"/>
 		</p:column>		
-		
+		<p:column style="width:85px">
+		<f:facet name="header">Participantes</f:facet>
+			<p:commandButton icon="ui-icon-extlink" action="#{#}" />
+		</p:column>				
 		<p:column style="width:50px">
 			<f:facet name="header">Fazer Reuniao</f:facet>
 			<p:commandButton icon="ui-icon-extlink" action="#{artefatoBean.chamarNovaAta()}" >
 			<f:setPropertyActionListener value="#{art}" target="#{artefatoBean.artefatoSelecionado}" />
 			</p:commandButton>
-			</p:column>
-			
+			</p:column>			
 			<p:column style="width:40px">
 				<f:facet name="header">Ver Atas</f:facet>
 				<p:commandButton action="#{artefatoBean.carregarAtas()}" update=":formTodasAtas:tableTodasAtas" 

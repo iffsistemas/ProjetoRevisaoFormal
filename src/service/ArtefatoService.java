@@ -31,6 +31,19 @@ public class ArtefatoService extends GenericService<Artefato> {
 				
 	}
 	
+	public List<Artefato> obtemArtefatosPorSituacao(Integer situacao) {
+		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+		CriteriaQuery<Artefato> cquery = cb.createQuery(Artefato.class);
+		Root<Artefato> root = cquery.from(Artefato.class);
+			
+		cquery.select(root).where(cb.equal(root.get("situacao"), situacao));
+		
+		List<Artefato> artefatos = getEntityManager().createQuery(cquery).getResultList();
+		
+		return artefatos;
+				
+	}
+	
 	public List<Artefato> listarTodosArtefatosComParticipantes() {
 		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
 		CriteriaQuery<Artefato> cquery = cb.createQuery(Artefato.class);

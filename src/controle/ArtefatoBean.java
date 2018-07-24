@@ -252,8 +252,7 @@ public class ArtefatoBean {
 		setParticipantes(participanteService.listAll());
 		setProjetos(projetoService.listAll());
 		setCategorias(categoriaService.listAll());
-		//atualizarArtefatos();
-		
+		getArtefatos().addAll(artefatoService.obtemArtefatosPorSituacao(0));
 		
 	
 		
@@ -289,7 +288,7 @@ public class ArtefatoBean {
 			artefatoService.create(artefato);
 			msg="Artefato cadastrado com sucesso";
 			setArtefato(new Artefato());
-			FacesContext.getCurrentInstance().getExternalContext().redirect("listaArtefatos.xhtml");
+			FacesContext.getCurrentInstance().getExternalContext().redirect("listaArtefatosSituacao.xhtml");
 				
 			
 		}else {
@@ -384,6 +383,12 @@ public class ArtefatoBean {
 		getArtefatos().addAll(artefatoService.obtemArtefatosPorBuscas(idCategoriaAtual,idProjetoAtual));
 	}
 	
+	
+	public void filtrarArtefatosSituacao() {
+		getArtefatos().clear();
+		getArtefatos().addAll(artefatoService.obtemArtefatosPorSituacao(idSituacaoAtual));
+		
+	}
 	
 	public void uploadDeArquivo(FileUploadEvent evento) {
 		

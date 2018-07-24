@@ -30,7 +30,7 @@
 	</p:selectOneMenu>	
 
 	
-	<p:commandButton value="Buscar" icon="ui-icon-search" action="#{#}" 
+	<p:commandButton value="Buscar" icon="ui-icon-search" action="#{artefatoBean.filtrarArtefatosSituacao()}" 
 	update=":formListaArtefatos:tableArtefatos :formTodasAtas:tableTodasAtas"/>			
 
 	</h:panelGrid>	
@@ -56,10 +56,6 @@
 			<p:outputLabel value="#{art.descricao}" />
 		</p:column>
 		<p:column style="width:85px">
-			<f:facet name="header">Produtor</f:facet>
-			<p:outputLabel value="#{#}"/>
-		</p:column>		
-		<p:column style="width:85px">
 			<f:facet name="header">Projeto</f:facet>
 			<p:outputLabel value="#{art.projeto.nome}"/>
 		</p:column>	
@@ -73,7 +69,10 @@
 			<f:facet name="header">Situacão</f:facet>
 			<p:outputLabel value="#{art.situacao.descricao}"/>
 		</p:column>		
-		
+		<p:column style="width:85px">
+		<f:facet name="header">Participantes</f:facet>
+			<p:commandButton icon="ui-icon-extlink" action="#{#}" />
+		</p:column>						
 		<p:column style="width:50px">
 			<f:facet name="header">Fazer Reuniao</f:facet>
 			<p:commandButton icon="ui-icon-extlink" action="#{artefatoBean.chamarNovaAta()}" >
@@ -87,9 +86,7 @@
 				icon="ui-icon-extlink" oncomplete="PF('dialogTodasAtas').show()">
 				<f:setPropertyActionListener value="#{art}" target="#{artefatoBean.artefatoSelecionado}" />
 				</p:commandButton>
-			</p:column>	
-			
-							
+			</p:column>								
 			<p:column style="width:45px">
 			<f:facet name="header">Excluir</f:facet>
 			<p:commandButton icon="ui-icon-trash" action="#{artefatoBean.excluirArtefato(art)}"

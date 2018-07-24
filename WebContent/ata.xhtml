@@ -54,9 +54,9 @@
      	</h:panelGrid>
      	
      	
-     	<p:fieldset legend="Equipe" id="fieldEquipe">
+     	<p:fieldset legend="Participantes da Reunião" id="fieldEquipe">
      	     	
-     	<p:commandButton value="Adicionar Participante" icon="ui-icon-plus" oncomplete="PF('AddParticipante').show();"/>
+     	<p:commandButton value="Adicionar..." icon="ui-icon-plus" oncomplete="PF('AddParticipante').show();"/>
      		   
      	
      	<p:dataTable style="max-width: 600px; min-width: 600px" value="#{ataReuniaoBean.ata.reuniaoParticipantes}" var="part"
@@ -65,26 +65,26 @@
 				<f:facet name="header">Nome</f:facet>
 				<h:outputText value="#{part.participante.nome}" />
 			</p:column>
-			<p:column style="width:55px">
+			<p:column style="width:100px">
 				<f:facet name="header">Função</f:facet>
 				<h:outputText value="#{part.funcao.descricao}" />
 			</p:column>		
 			<p:column style="width:70px">
 				<f:facet name="header">Assinatura</f:facet>
-				<h:outputText value="#{part.assinatura}" />
+				<p:selectBooleanCheckbox value="#{part.assinatura}" disabled="true" />
 			</p:column>		
-			<p:column style="width:90px">
-				<f:facet name="header">Ata</f:facet>
-				<p:commandButton value="Assinar Ata" icon="ui-icon-trash" oncomplete="PF('DialogAssinarAta').show();" 
+			<p:column style="width:115px">
+				<f:facet name="header">Assinar</f:facet>
+				<p:commandButton value="Assinar Ata" icon="ui-icon-check" oncomplete="PF('DialogAssinarAta').show();" 
 				update=":mensagem, tableParticipante" process="tableParticipante" >  
 				<f:setPropertyActionListener value="#{part}" target="#{ataReuniaoBean.reuniaoParticipante}" />
 				</p:commandButton> 
-			</p:column>	
-			<p:column style="width:55px">
+				</p:column>	
+		   	<p:column style="width:55px">
 				<f:facet name="header">Excluir</f:facet>
 				<p:commandButton icon="ui-icon-trash" action="#{ataReuniaoBean.removerParticipanteEfuncao(part)}" 
 				update=":mensagem, tableParticipante" process="tableParticipante" />   
-			</p:column>	
+		  </p:column>	
 		</p:dataTable>
 		
 		</p:fieldset>
@@ -110,26 +110,7 @@
 		
 		</h:panelGrid>
 		
-		<p:fieldset legend="Assinaturas" id="fieldAssinatura">
-     	     	
-     	<p:commandButton value="Assinar Ata" icon="ui-icon-plus" oncomplete="PF('AddAssinatura').show();"/>
-     		   
-     	
-     	<p:dataTable style="max-width: 600px; min-width: 600px" value="#{ataReuniaoBean.assinaturas}" var="ata"
-	paginator="true" id="tableAssinatura"  emptyMessage="Esta ATA ainda não foi assinada." rows="7" >
-		<p:column>
-			<f:facet name="header">Nome</f:facet>
-			<h:outputText value="#{ata.nome}" />
-		</p:column>
-		
-		<p:column style="width:55px">
-			<f:facet name="header">Excluir</f:facet>
-			<p:commandButton icon="ui-icon-trash" action="#{#}" 
-			update=":mensagem, tableAssinatura" process="tableAssinatura" />   
-		</p:column>	
-		</p:dataTable>
-		</p:fieldset>
-		
+				
 		<p:commandButton value="Gravar" icon="ui-icon-disk" action="#{ataReuniaoBean.salvarAta()}" 
 				update=":mensagem, :FormAta" process="@form" />   
 		
@@ -174,7 +155,7 @@
  	<p:dialog  header="Anexo" widgetVar="verAnexo" resizable="false" 
  		draggable="false" modal="true" showEffect="slide" hideEffect="slide"  >
  		
- 		<p:graphicImage id="arquivoUpload" value="#{imagemBean.foto}"  width="800" height="400">
+ 		<p:graphicImage id="arquivoUpload" value="#{imagemBean.foto}"  width="400" height="400">
  		 <f:param name="caminho" value="#{ataReuniaoBean.ata.artefato.anexo.caminho}"/>
  		</p:graphicImage>
 	</p:dialog>
@@ -187,7 +168,7 @@
 
 		<h:panelGrid columns="2">
      	
-     	     	
+     	     	     	
      	<p:outputLabel value="Senha" for="senhaAssinatura"/>
      	<p:password value="#{ataReuniaoBean.senhaAssinatura}" id="senhaAssinatura" required="true" requiredMessage="Senha Obrigatória!" />
      	

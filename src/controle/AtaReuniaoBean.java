@@ -203,6 +203,7 @@ public class AtaReuniaoBean {
 			//getAta().setDuracaoDaReuniao(ata.getDataHoraFim() - ata.getDataHoraInicio());
 			ataReuniaoService.gravarAtaReuniaoComParticipantes(ata);
 			setAta(new AtaReuniao());
+			FacesContext.getCurrentInstance().getExternalContext().redirect("listaArtefatos.xhtml");
 			FacesContext.getCurrentInstance().addMessage("menssagem", new FacesMessage("Parabéns!", msg));
 			
 			
@@ -283,23 +284,23 @@ public class AtaReuniaoBean {
 			if(reuniaoParticipante.getParticipante().getSenha().equals(senhaAssinatura)) {
 				
 				FacesContext.getCurrentInstance().addMessage("menssagem", new FacesMessage("Parabéns!", "Assinado!"));
-				System.out.println("Assinado");
-								
-				ata.getReuniaoParticipantes().get(0).setAssinatura(Boolean.TRUE);
-				
 				
 								
-				System.out.println(ata.getReuniaoParticipantes().get(0).getAssinatura());
-				
-						
-						
-							
+				for (int i=0; i<ata.getReuniaoParticipantes().size(); i++) {
+					
+				if (ata.getReuniaoParticipantes().get(i).getParticipante().getNome().equals(reuniaoParticipante.getParticipante().getNome())){
+					ata.getReuniaoParticipantes().get(i).setAssinatura(Boolean.TRUE);
+											
+					}
+					
+			}			
+	
 			} else {
 				FacesContext.getCurrentInstance().addMessage("menssagem", new FacesMessage("Não assinado!", "Senha Incorreta! Tente novamente."));
 				
 			}
 				
-			
+			setSenhaAssinatura("");
 						
 			
 				
