@@ -65,10 +65,21 @@
 				<f:facet name="header">Nome</f:facet>
 				<h:outputText value="#{part.participante.nome}" />
 			</p:column>
-			<p:column>
+			<p:column style="width:55px">
 				<f:facet name="header">Função</f:facet>
 				<h:outputText value="#{part.funcao.descricao}" />
 			</p:column>		
+			<p:column style="width:70px">
+				<f:facet name="header">Assinatura</f:facet>
+				<h:outputText value="#{part.assinatura}" />
+			</p:column>		
+			<p:column style="width:90px">
+				<f:facet name="header">Ata</f:facet>
+				<p:commandButton value="Assinar Ata" icon="ui-icon-trash" oncomplete="PF('DialogAssinarAta').show();" 
+				update=":mensagem, tableParticipante" process="tableParticipante" >  
+				<f:setPropertyActionListener value="#{part}" target="#{ataReuniaoBean.reuniaoParticipante}" />
+				</p:commandButton> 
+			</p:column>	
 			<p:column style="width:55px">
 				<f:facet name="header">Excluir</f:facet>
 				<p:commandButton icon="ui-icon-trash" action="#{ataReuniaoBean.removerParticipanteEfuncao(part)}" 
@@ -85,7 +96,7 @@
 		<h:panelGrid columns="2">
 		
 		<p:outputLabel value="Anexo:"/>
-		<p:commandButton value="Ver Anexo" icon="ui-icon-plus" oncomplete="PF('verAnexo').show();"/>
+		<p:commandButton value="Ver Anexo" icon="ui-icon-image" oncomplete="PF('verAnexo').show();"/>
 				
 		<p:outputLabel value="Relatório:" for="relatorio"/>
      	<p:inputTextarea id="relatorio" value="#{ataReuniaoBean.ata.registrosProblemas}"  rows="20" cols="97" autoResize="false" />
@@ -159,32 +170,6 @@
 
 
 
-<h:form id="formAssinatura">
- 	<p:dialog  header="Assinar Ata" widgetVar="AddAssinatura" resizable="false" 
- 		draggable="false" modal="true" showEffect="slide" hideEffect="slide"  >
-
-		<h:panelGrid columns="2">
-     	
-     	<p:outputLabel value="Participante " for="part" />
-					<p:selectOneMenu id="part" value="#{ataReuniaoBean.idParticipanteAtual}">
-						<f:selectItems value="#{ataReuniaoBean.participantes}" var="part" 
-						 itemLabel="#{part.nome}" itemValue="#{part.id()}"  />
-					</p:selectOneMenu>
-     	
-     	<p:outputLabel value="Senha" for="senhaAssinatura"/>
-     	<p:password value="#{ataReuniaoBean.senhaAssinatura}" id="senhaAssinatura" required="true" requiredMessage="Senha Obrigatória!" />
-     	
-     	<p:commandButton value="Assinar" icon="ui-icon-check" action="#{ataReuniaoBean.validarAssinatura}"
-     	update=":mensagem :FormAta:tableAssinatura" process="formAssinatura" oncomplete="PF('AddAssinatura').hide();"/> 
-     	
-		<p:commandButton value="Fechar" icon="ui-icon-close" oncomplete="PF('AddAssinatura').hide();"/>
-
-		</h:panelGrid>	
-		
-</p:dialog>
- </h:form> 	
-
-
 <h:form id="formVerAnexo">
  	<p:dialog  header="Anexo" widgetVar="verAnexo" resizable="false" 
  		draggable="false" modal="true" showEffect="slide" hideEffect="slide"  >
@@ -194,6 +179,27 @@
  		</p:graphicImage>
 	</p:dialog>
 </h:form> 		
+
+
+<h:form id="formAssinarAta">
+ 	<p:dialog  header="Assinar Ata" widgetVar="DialogAssinarAta" resizable="false" 
+ 		draggable="false" modal="true" showEffect="slide" hideEffect="slide"  >
+
+		<h:panelGrid columns="2">
+     	
+     	     	
+     	<p:outputLabel value="Senha" for="senhaAssinatura"/>
+     	<p:password value="#{ataReuniaoBean.senhaAssinatura}" id="senhaAssinatura" required="true" requiredMessage="Senha Obrigatória!" />
+     	
+     	<p:commandButton value="Assinar" icon="ui-icon-check" action="#{ataReuniaoBean.validarAssinatura()}"
+     	update=":mensagem :FormAta:tableParticipante" process="formAssinarAta" oncomplete="PF('DialogAssinarAta').hide();"/> 
+     	
+		<p:commandButton value="Fechar" icon="ui-icon-close" oncomplete="PF('DialogAssinarAta').hide();"/>
+
+		</h:panelGrid>	
+		
+</p:dialog>
+ </h:form> 	
 
 
   

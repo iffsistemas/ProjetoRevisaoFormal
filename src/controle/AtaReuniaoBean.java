@@ -33,6 +33,7 @@ import service.ReuniaoParticipanteService;
 public class AtaReuniaoBean {
 
 	
+	
 	@EJB
 	AtaReuniaoService ataReuniaoService;	
 	@EJB
@@ -47,6 +48,7 @@ public class AtaReuniaoBean {
 	private AtaReuniao ata = new AtaReuniao();
 	private AtaReuniao ataSelecionada = new AtaReuniao();
 	private ReuniaoParticipante reuniaoParticipante = new ReuniaoParticipante();
+	private Participante partAssinanteSelecionado = new Participante();
 	
 	Integer idSituacaoAtual = 0;
 	
@@ -91,8 +93,6 @@ public class AtaReuniaoBean {
 		this.participantes = participantes;
 	}
 	
-	
-
 	public Date getDataCronometro() {
 		return dataCronometro;
 	}
@@ -160,6 +160,15 @@ public class AtaReuniaoBean {
 	public void setAssinaturas(List<Participante> assinaturas) {
 		this.assinaturas = assinaturas;
 	}
+	
+	
+	public Participante getPartAssinanteSelecionado() {
+		return partAssinanteSelecionado;
+	}
+
+	public void setPartAssinanteSelecionado(Participante partAssinanteSelecionado) {
+		this.partAssinanteSelecionado = partAssinanteSelecionado;
+	}
 
 	@PostConstruct
 	public void init(){
@@ -175,6 +184,8 @@ public class AtaReuniaoBean {
 		
 		getAta().setDataHoraInicio(new Date());
 		carregarParticipantesAtefato();
+		
+		
 				
 	}
 	
@@ -262,33 +273,34 @@ public class AtaReuniaoBean {
 	
 	*/
 	
+	
+	
 	public void validarAssinatura() {
-				
-		Participante participanteAssinante = participanteService.obtemPorId(idParticipanteAtual);
 		
-		for (Participante p: participantes) {
-			
-			if(p.getNome().equals(participanteAssinante.getNome()) && senhaAssinatura.equals(participanteAssinante.getSenha())) {
-				
-				setAssinatura(Boolean.TRUE);
-			}
 		
-		}
 		
-			if(assinatura) {
+					
+			if(reuniaoParticipante.getParticipante().getSenha().equals(senhaAssinatura)) {
 				
-				assinaturas.add(participanteAssinante);
-				FacesContext.getCurrentInstance().addMessage("menssagem", new FacesMessage("Parabéns!", "Assinado!"));	
-				setAssinatura(Boolean.FALSE);
+				FacesContext.getCurrentInstance().addMessage("menssagem", new FacesMessage("Parabéns!", "Assinado!"));
+				System.out.println("Assinado");
+								
+				ata.getReuniaoParticipantes().get(0).setAssinatura(Boolean.TRUE);
 				
-			}else {
+				
+								
+				System.out.println(ata.getReuniaoParticipantes().get(0).getAssinatura());
+				
+						
+						
+							
+			} else {
 				FacesContext.getCurrentInstance().addMessage("menssagem", new FacesMessage("Não assinado!", "Senha Incorreta! Tente novamente."));
 				
 			}
 				
 			
-			setSenhaAssinatura("");
-			
+						
 			
 				
 	}
