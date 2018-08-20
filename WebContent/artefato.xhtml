@@ -18,10 +18,10 @@
 	<h:panelGrid columns="2">
      	
      	<p:outputLabel value="Título da RTF" for="titulo"/>
-     	<p:inputTextarea id="titulo" value="#{artefatoBean.artefato.titulo}"  rows="2" cols="60" autoResize="false" required="true" requiredMessage="Título Obrigatório!" />
+     	<p:inputTextarea id="titulo" value="#{artefatoBean.artefato.titulo}"  rows="1" cols="60" autoResize="false" required="true" requiredMessage="Título Obrigatório!" />
      	
      	<p:outputLabel value="Descrição:" for="descricao"/>
-     	<p:inputTextarea id="descricao" value="#{artefatoBean.artefato.descricao}"  rows="6" cols="60" autoResize="false" />
+     	<p:inputTextarea id="descricao" value="#{artefatoBean.artefato.descricao}"  rows="5" cols="60" autoResize="false" />
      	
      	<p:outputLabel value="Situacão: " for="sit" />
 					<p:selectOneMenu id="sit" value="#{artefatoBean.idSituacaoAtual}" style="width:150px;">
@@ -96,7 +96,7 @@
  	 
  	 <p:panelGrid columns="2"> 
  		<p:outputLabel value="Descrição: " for="descricaoAnexo" />
-		<p:inputText id="descricaoAnexo" value="#{artefatoBean.anexo.descricao}"  />
+		<p:inputTextarea id="descricaoAnexo" value="#{artefatoBean.anexo.descricao}" rows="1" cols="60" autoResize="false" />
 	</p:panelGrid>
  	  	   
  	 </p:fieldset>
