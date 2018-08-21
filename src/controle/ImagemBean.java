@@ -33,7 +33,7 @@ public class ImagemBean {
 	public StreamedContent getFoto() throws IOException {
 		if (caminho == null || caminho.isEmpty()) {
 			 
-			Path path = Paths.get("C:/ImagensRevisApp/branco.png");
+			Path path = Paths.get("C:/java/ImagensRevisapp/branco.png");
 			InputStream stream = Files.newInputStream(path);
 			foto = new  DefaultStreamedContent(stream);
 		}else {

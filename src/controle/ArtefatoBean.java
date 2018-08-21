@@ -277,12 +277,12 @@ public class ArtefatoBean {
 			artefato.setSituacao(Situacao.values()[idSituacaoAtual]);
 			
 			Path origem = Paths.get(artefato.getCaminho());
-			Path destino = Paths.get("C:/ImagensRevisApp/" + nomeArquivo);
+			Path destino = Paths.get("C:/java/ImagensRevisapp/" + nomeArquivo);
 			Files.copy(origem, destino, StandardCopyOption.REPLACE_EXISTING);
 		
 			//getArtefato().getAnexo().setCaminho(nomeArquivo);
 			
-			anexo.setCaminho("C:/ImagensRevisApp/" + nomeArquivo);
+			anexo.setCaminho("C:/java/ImagensRevisapp/" + nomeArquivo);
 			artefato.setAnexo(anexo);		
 			
 			artefatoService.create(artefato);
