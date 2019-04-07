@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+
+ <h:head>
+        <title>Nutrapp - Login </title>         
+        
+    </h:head>
+    <h:body>
+    <p:growl id="mensagem" life="5000" showDetail="true" />
+			<p:dialog id="dialogLogin" visible="true" width="570" height="370"
+				header="Acessar o Sistema" showHeader="false" modal="true"
+				resizable="false" showEffect="slide" draggable="false">
+					<h:graphicImage library="imagens" name="LogoR4.png"/>
+				<h:panelGrid style="margin: 0 auto;">
+					
+				</h:panelGrid>
+				<h:form id="formLogin">
+					<h:panelGrid cellspacing="10">
+                    Digite seu login e senha para ter acesso ao sistema:                    
+                    <p:inputText placeholder="Login" value="#{participanteBean.login}"
+							size="40" 
+							requiredMessage="Campo Login é obrigatório" />
+						<p:password placeholder="Senha" value="#{participanteBean.senha}"
+							size="40" 
+							requiredMessage="Campo Senha é obrigatório" />
+						<p:commandButton value="Log In" action="#{participanteBean.validarLoginESenha()}"
+							update="mensagem" />
+					</h:panelGrid>
+					
+						
+				</h:form>
+			</p:dialog>
+</h:body>
+
+
+	
+</html>
+
