@@ -18,7 +18,9 @@
 
 		<h:form id="formParticipantes">
 			
-			<p:panelGrid columns="2">
+			<p:panelGrid columns="2" styleClass="noBorders">
+				
+				
 				<p:outputLabel value="Nome: " for="nome"/>
 				<p:inputText value="#{participanteBean.participante.nome}" id="nome" required="true" requiredMessage="Nome Obrigatório!" />
 				

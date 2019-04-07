@@ -8,7 +8,7 @@
 }
 
 body{
-	background-color: snow;
+	background-color: lightcyan;
 }
 
 
@@ -68,7 +68,6 @@ body{
 
 .rodape{
 	text-align: center;
-	
 	font-style: italic;
 	font-weight: bold;
 	padding: 10px;
@@ -86,7 +85,22 @@ body{
 .ui-panelgrid .ui-panelgrid-cell {
     border-style: none;
     padding: 2px 3px;
+ }
+ 
+.ui-panelgrid, .ui-panelgrid td {
+	
+	background-color: black; 
+	font-weight: bold;
+	font-style: italic;
+	color: white;
+	
+	
+}
 
+
+.noBorders tr, .noBorders td {
+    background: none !important;
+    border: none !important;
 }
 	
 

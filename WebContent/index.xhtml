@@ -14,14 +14,15 @@
 
 <ui:define name="conteudo">
 
-
-<h:graphicImage library="imagens" name="logoIndex.png"/>
+<div align="center"> 
+<h:graphicImage  library="imagens" name="RB-10.jpg"/>
+</div>
 
 <h:form id="formLogin">
 
 	<p:growl id="mensagemLogin" life="5000" showDetail="true" />
-            <div align="center" >
-            <p:panelGrid columns="2">
+            <div align="center">
+            <p:panelGrid columns="5" styleClass="noBorders" >
             
             
                   <p:outputLabel for="login" value="Login:" required="true" requiredMessage="Nome Obrigatório!" />
@@ -31,9 +32,10 @@
                   <p:password id="senha" value="#{participanteBean.senha}" />
                   
                                    
-                  <p:commandButton value="Enviar" icon="ui-icon-star"  update=":formLogin" process="@form"
+                  <p:commandButton value="Entrar" icon="ui-icon-person"  update=":formLogin" process="@form"
                   action="#{participanteBean.validarLoginESenha()}"/>
-               
+                  
+                                
   
             </p:panelGrid>
             </div>
