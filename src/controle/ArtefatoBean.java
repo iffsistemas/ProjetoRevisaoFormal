@@ -283,7 +283,9 @@ public class ArtefatoBean {
 			//getArtefato().getAnexo().setCaminho(nomeArquivo);
 			
 			anexo.setCaminho("C:/java/ImagensRevisapp/" + nomeArquivo);
-			artefato.setAnexo(anexo);		
+			anexo.setDescricao(nomeArquivo);
+			artefato.setAnexo(anexo);
+			
 			
 			artefatoService.create(artefato);
 			msg="Artefato cadastrado com sucesso";

@@ -91,36 +91,13 @@
 		
  		
  		
-<script type="text/javascript">
-	    //<![CDATA[
-	function start() {
-	    PF('statusDialog').show();
-	}
-	 
-	function stop() {
-	    PF('statusDialog').hide();
-	}
-	    //]]>
-</script>  			
+ 					
 		
-		
-	<h:panelGrid columns="3">
+		<h:panelGrid columns="2">
 		
 		<p:outputLabel value="Anexo:"/>
-		
-		<p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false" resizable="false">
-   			 <p:graphicImage name="/demo/images/ajaxloadingbar.gif" />
-		</p:dialog>
-		
-		<p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="pi pi-arrow-down">
-       		 <p:fileDownload id="arquivoUpload" value="#{imagemBean.foto}"/>
-         		 <f:param name="caminho" value="#{ataReuniaoBean.ata.artefato.anexo.descricao}"/>   
-           	</p:commandButton>    
+		<p:commandButton value="Ver Anexo" icon="ui-icon-image" oncomplete="PF('verAnexo').show();"/>
 				
-	</h:panelGrid>
-				
-	<h:panelGrid columns="2">		
-		
 		<p:outputLabel value="Relatório:" for="relatorio"/>
      	<p:inputTextarea id="relatorio" value="#{ataReuniaoBean.ata.registrosProblemas}"  rows="20" cols="97" autoResize="false" />
 		
@@ -130,16 +107,16 @@
 						<f:selectItems value="#{ataReuniaoBean.situacoes}" var="sit" 
 						 itemLabel="#{sit.descricao}" itemValue="#{sit.ordinal()}"  />
 					</p:selectOneMenu>
-				
+		
+		</h:panelGrid>
 		
 				
 		<p:commandButton value="Gravar" icon="ui-icon-disk" action="#{ataReuniaoBean.salvarAta()}" 
 				update=":mensagem, :FormAta" process="@form" />   
 		
-	</h:panelGrid>	
 </h:form>	
 	
-
+	
 	
 	
 	
@@ -172,6 +149,17 @@
 </p:dialog>
  </h:form> 	
 
+
+
+<h:form id="formVerAnexo">
+ 	<p:dialog  header="Anexo" widgetVar="verAnexo" resizable="false" 
+ 		draggable="false" modal="true" showEffect="slide" hideEffect="slide"  >
+ 		
+ 		<p:graphicImage id="arquivoUpload" value="#{imagemBean.foto}"  width="500" height="450">
+ 		 <f:param name="caminho" value="#{ataReuniaoBean.ata.artefato.anexo.caminho}"/>
+ 		</p:graphicImage>
+	</p:dialog>
+</h:form> 		
 
 
 <h:form id="formAssinarAta">

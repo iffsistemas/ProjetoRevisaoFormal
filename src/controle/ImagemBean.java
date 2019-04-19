@@ -19,28 +19,34 @@ public class ImagemBean {
 	
 	@ManagedProperty("#{param.caminho}")
 	
+	
+	
 	private String caminho;
+	private String local = "C:/java/ImagensRevisapp/";
 	private StreamedContent foto;
 	
+		
 	
-	
-	public String getCaminho() {
+		public String getCaminho() {
 		return caminho;
 	}
 	public void setCaminho(String caminho) {
 		this.caminho = caminho;
 	}
+	
 	public StreamedContent getFoto() throws IOException {
 		if (caminho == null || caminho.isEmpty()) {
 			 
-			Path path = Paths.get("C:/java/ImagensRevisapp/branco.png");
+			Path path = Paths.get(local + "branco.png");
 			InputStream stream = Files.newInputStream(path);
 			foto = new  DefaultStreamedContent(stream);
+			System.out.println(caminho);
 		}else {
 			
-			Path path = Paths.get(caminho);
+			Path path = Paths.get(local + caminho);
 			InputStream stream = Files.newInputStream(path);
-			foto = new  DefaultStreamedContent(stream);
+			foto = new  DefaultStreamedContent(stream, "image/jpg", caminho);
+			System.out.println(caminho);
 		}
 		return foto;
 	}
@@ -52,6 +58,11 @@ public class ImagemBean {
 		
 		System.out.println(caminho);
 	}
+	
+	
+	
+	
+	
 	
 
 }
