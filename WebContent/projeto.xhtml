@@ -22,6 +22,8 @@
 				<p:outputLabel value="Nome: " for="nome"/>
 				<p:inputText value="#{projetoBean.projeto.nome}" id="nome" required="true" requiredMessage="Nome Obrigatório!" />
 				
+				<p:outputLabel value="Descrição " for="descricao"/>
+				<p:inputText value="#{projetoBean.projeto.descricao}" id="descricao" required="true" requiredMessage="Descrição Obrigatório!" />
 								
 				<p:commandButton action="#{projetoBean.salvarProjeto()}" value="Salvar" 
 				update=":mensagem :formProjetos, formLista:tableProjetos" process="@form" />			
@@ -37,6 +39,12 @@
 				<p:column headerText="Nome" sortBy="#{proj.nome}">
 					<h:outputText value="#{proj.nome}" />
 				</p:column>
+				
+				<p:column headerText="Descrição" sortBy="#{proj.descricao}">
+					<h:outputText value="#{proj.descricao}" />
+				</p:column>
+				
+				
 				
 				<p:column style="width:55px" headerText="Editar">
 					<p:commandButton action="#{projetoBean.editarProjeto(proj)}" icon="ui-icon-pencil" 
